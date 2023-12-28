@@ -1,5 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+const result = []
+const modules = import.meta.glob('./**/*.js', { eager: true })
+for(let name in modules){
+    result.push(...modules[name].default)
+}
+
 const routes = [
     {
         path: "/",
@@ -18,6 +24,7 @@ const routes = [
         name: "Home",
         path: "/home",
         component: () => import("@/views/home.vue"),
+        children:result,
         meta:{
             index: 2
         }

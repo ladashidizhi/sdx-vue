@@ -53,6 +53,9 @@
           </a-menu-item>
         </a-menu>
       </div>
+      <div class="work_staging" :style="{width: `calc(100% - ${width})`}">
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>
@@ -406,12 +409,17 @@ export default {
     .work_space{
       width: 100%;
       height: calc(100% - 60px);
+      display: flex;
 
       .menu{
         height: 100%;
         overflow: hidden;
         background-color: #2e2e30;
         transition: width .3s;
+      }
+
+      .work_staging{
+        height: 100%;
       }
     }
 }
