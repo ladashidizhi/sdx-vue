@@ -85,6 +85,11 @@ export default{
             this.hostInfo.name = this.hostList[0].name
             this.hostInfo.host = this.hostList[0].host
         }
+
+        window.addEventListener('resize', ()=>{
+            this.windowWidth = window.document.documentElement.offsetWidth
+            this.widthHeight = window.document.documentElement.offsetHeight
+        })
     },
     watch:{
         hostList:{
