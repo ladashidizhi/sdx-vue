@@ -64,6 +64,9 @@ html, body, #content {
   transform: translateX(-100%);
 }
 
+.arco-message-list{
+  left:0;
+}
 
 
 </style>

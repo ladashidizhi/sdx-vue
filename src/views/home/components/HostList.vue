@@ -1,0 +1,210 @@
+<template>
+    <div class="hosts">
+        <div class="item">
+            <h2>{{ hostInfo.name }}</h2>
+            <h3>{{ hostInfo.host }}</h3>
+        </div>
+        <div class="list">
+           <div class="list_content">
+                <div class="form">
+                    <a-input :style="{width:'320px'}" placeholder="请输入主机IP" allow-clear v-model="hostName"/>
+                </div>
+                <div class="hosts_addr">
+                    <div class="host_item" v-for="item,index in searching ? hostFindResult : hostList" :key="index" :title="item.name+'\n'+item.host" @click="updateHost(item)">
+                        <h2>{{ item.name }}</h2>
+                        <h3>{{ item.host }}</h3>
+                        <div class="icon" :style="getStyle(item.status)"></div>
+                    </div>
+                </div>
+           </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import { reactive } from '@vue/runtime-core'
+import { ref } from 'vue'
+
+export default{
+    props:{
+        hostList:{
+            type: Array,
+            default:()=>[]
+        }
+    },
+    setup(){
+        const hostInfo = ref({
+            "id": 0,
+            "name": "",
+            "host": ""
+        })
+
+        return {
+            searching: ref(false),
+            hostName: ref(""),
+            hostFindResult: reactive([]),
+            hostInfo
+        }
+    },
+    methods:{
+        search(){
+            if(this.hostName.length === 0){
+                this.$message.error("请输入正确的主机IP")
+                return
+            }
+        },
+        getStyle(status){
+            switch(status){
+                case 0:
+                    return {'background-color': '#F56C6C',  'box-shadow': '0 0 20px #F56C6C'}
+                case 1:
+                    return {'background-color': '#E6A23C',  'box-shadow': '0 0 20px #E6A23C'}
+                case 2:
+                    return {'background-color': '#67C23A',  'box-shadow': '0 0 20px #67C23A'}
+            }
+        },
+        updateHost(item){
+            this.hostInfo.id = item.id
+            this.hostInfo.name = item.name
+            this.hostInfo.host = item.host
+            this.$emit('updateHost', item)
+        }
+    },
+    mounted(){
+        if(this.hostList.length > 0)
+        {
+            this.hostInfo.id = this.hostList[0].id
+            this.hostInfo.name = this.hostList[0].name
+            this.hostInfo.host = this.hostList[0].host
+        }
+    },
+    watch:{
+        hostList:{
+            immediate: true,
+            deep: true,
+            handler(val){
+            }
+        },
+        hostName(val){
+           if(val.length === 0){
+                this.searching = false
+           }
+           this.searching = true
+           this.hostFindResult = this.hostList.filter(item=>item.host.indexOf(val) > -1 || item.name.indexOf(val) > -1)
+        }
+    }
+}
+</script>
+
+
+<style lang="scss" scoped>
+.hosts{
+    width: 100%;
+    height: 100%;
+    border: 1px solid red;
+    position: relative;
+    
+    .item{
+        width: 80%;
+        margin: 0 auto;
+        height: 100%;
+        border: 1px solid blue;
+
+        h2{
+            text-align: center;
+            cursor: default;
+        }
+
+        h3{
+            text-align: center;
+            cursor: default;
+        }
+    }
+
+    .list{
+        width: 900px;
+        overflow: hidden;
+        box-sizing: border-box;
+        position: absolute;
+        top: 100%;
+        height: 0px;
+        opacity: 0;
+        background-color: #2e2e30;
+        transition: all .5s ease-in-out;
+
+        .list_content{
+            padding: 15px;
+        }
+
+        .form{
+            width: 400px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .hosts_addr{
+            width: 100%;
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+
+            .host_item{
+                width: 150px;
+                margin-right: 24px;
+                margin-bottom: 24px;
+                cursor: pointer;
+                border-radius: 5px;
+                background-color: #7f7f80;
+                transition: all .3s;
+                position: relative;
+
+                &:hover{
+                    background-color: #5aaafb;
+                    transform: scale(1.1);
+                }
+
+                h2{
+                    color: white;
+                    font-size: 14px;
+                    text-align: center;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    width: 80%;
+                    margin: 0 auto;
+                }
+
+                h3{
+                    color: white;
+                    font-size: 14px;
+                    text-align: center;
+                    font-weight: normal;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    width: 80%;
+                    margin: 0 auto;
+                }
+
+                .icon{
+                    width: 10px;
+                    height: 10px;
+                    position: absolute;
+                    top: 3px;
+                    right: 5px;
+                    border-radius: 50%;
+                    transform: all .5s;
+                }
+            }
+        }
+    
+    }
+
+    &:hover{
+        .list{
+            height: 300px;
+            opacity: 1;
+        }
+    }
+}
+</style>
