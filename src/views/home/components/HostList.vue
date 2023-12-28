@@ -1,29 +1,34 @@
 <template>
     <div class="hosts">
-        <div class="item">
+        <div class="item" @click="collapse=!collapse">
             <h2>{{ hostInfo.name }}</h2>
             <h3>{{ hostInfo.host }}</h3>
         </div>
-        <div class="list">
+        <div class="list" 
+        :style="{width: windowWidth+'px', height: (collapse ? 0 : widthHeight / 2)+'px', opacity: collapse ? 0 : 1, zIndex: collapse ? 0:1000}">
            <div class="list_content">
                 <div class="form">
-                    <a-input :style="{width:'320px'}" placeholder="请输入主机IP" allow-clear v-model="hostName"/>
+                    <a-input :style="{width:'500px'}" placeholder="请输入主机IP" allow-clear v-model="hostName"/>
+                    <span class="icon" @click.stop="collapse=true">
+                        <icon-close />
+                    </span>
                 </div>
-                <div class="hosts_addr">
-                    <div class="host_item" v-for="item,index in searching ? hostFindResult : hostList" :key="index" :title="item.name+'\n'+item.host" @click="updateHost(item)">
-                        <h2>{{ item.name }}</h2>
-                        <h3>{{ item.host }}</h3>
-                        <div class="icon" :style="getStyle(item.status)"></div>
+                <a-scrollbar style="height:100%;overflow: auto;margin-top: 20px;">
+                    <div class="hosts_addr">
+                        <div class="host_item" v-for="item,index in (searching ? hostFindResult : hostList)" :key="index" :title="item.name+'\n'+item.host" @click="updateHost(item)">
+                            <h2>{{ item.name }}</h2>
+                            <h3>{{ item.host }}</h3>
+                            <div class="icon" :style="getStyle(item.status)"></div>
+                        </div>
                     </div>
-                </div>
+                </a-scrollbar>
            </div>
         </div>
     </div>
 </template>
 
 <script>
-import { reactive } from '@vue/runtime-core'
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 
 export default{
     props:{
@@ -43,7 +48,10 @@ export default{
             searching: ref(false),
             hostName: ref(""),
             hostFindResult: reactive([]),
-            hostInfo
+            hostInfo,
+            windowWidth: ref(window.document.documentElement.offsetWidth),
+            widthHeight: ref(window.document.documentElement.offsetHeight),
+            collapse: ref(true)
         }
     },
     methods:{
@@ -86,11 +94,13 @@ export default{
             }
         },
         hostName(val){
-           if(val.length === 0){
-                this.searching = false
-           }
-           this.searching = true
-           this.hostFindResult = this.hostList.filter(item=>item.host.indexOf(val) > -1 || item.name.indexOf(val) > -1)
+           this.searching = val.length > 0
+           this.hostFindResult.splice(0, this.hostFindResult.length)
+           this.hostList.forEach((item)=>{
+            if(item.host.indexOf(val) > -1){
+                this.hostFindResult.push(reactive(item))
+            }
+           })
         }
     }
 }
@@ -101,28 +111,27 @@ export default{
 .hosts{
     width: 100%;
     height: 100%;
-    border: 1px solid red;
     position: relative;
     
     .item{
         width: 80%;
         margin: 0 auto;
         height: 100%;
-        border: 1px solid blue;
+        cursor: pointer;
 
         h2{
             text-align: center;
-            cursor: default;
+            color: #909399;
         }
 
         h3{
             text-align: center;
-            cursor: default;
+            color: #909399;
         }
     }
 
     .list{
-        width: 900px;
+        z-index: 100;
         overflow: hidden;
         box-sizing: border-box;
         position: absolute;
@@ -137,19 +146,32 @@ export default{
         }
 
         .form{
-            width: 400px;
+            width: 100%;
             display: flex;
             justify-content: space-between;
+            
+            .icon{
+                cursor: pointer;
+                font-size: 20px;
+                color: white;
+                margin-right: 50px;
+                transition: all .3s;
+                
+                &:hover{
+                    color: rgb(60, 126, 255);
+                    transform: scale(1.3);
+                }
+            }
         }
         
         .hosts_addr{
             width: 100%;
-            margin-top: 20px;
             display: flex;
             flex-wrap: wrap;
+            max-height: 385px;
 
             .host_item{
-                width: 150px;
+                width: 170px;
                 margin-right: 24px;
                 margin-bottom: 24px;
                 cursor: pointer;
@@ -200,11 +222,11 @@ export default{
     
     }
 
-    &:hover{
-        .list{
-            height: 300px;
-            opacity: 1;
-        }
-    }
+    // &:hover{
+    //     .list{
+    //         height: 300px;
+    //         opacity: 1;
+    //     }
+    // }
 }
 </style>
