@@ -14,13 +14,14 @@
                     </span>
                 </div>
                 <a-scrollbar style="height:100%;overflow: auto;margin-top: 20px;">
-                    <div class="hosts_addr">
+                    <div class="hosts_addr" v-if="(searching ? hostFindResult : hostList).length > 0">
                         <div class="host_item" v-for="item,index in (searching ? hostFindResult : hostList)" :key="index" :title="item.name+'\n'+item.host" @click="updateHost(item)">
-                            <h2>{{ item.name }}</h2>
-                            <h3>{{ item.host }}</h3>
-                            <div class="icon" :style="getStyle(item.status)"></div>
+                                <h2>{{ item.name }}</h2>
+                                <h3>{{ item.host }}</h3>
+                                <div class="icon" :style="getStyle(item.status)"></div>
                         </div>
                     </div>
+                    <a-empty v-else/>
                 </a-scrollbar>
            </div>
         </div>
@@ -44,13 +45,16 @@ export default{
             "host": ""
         })
 
+        let windowWidth = ref(window.document.documentElement.offsetWidth), 
+            widthHeight = window.document.documentElement.offsetHeight
+            widthHeight = widthHeight < 900 ? ref(934) : ref(widthHeight)
         return {
             searching: ref(false),
             hostName: ref(""),
             hostFindResult: reactive([]),
             hostInfo,
-            windowWidth: ref(window.document.documentElement.offsetWidth),
-            widthHeight: ref(window.document.documentElement.offsetHeight),
+            windowWidth,
+            widthHeight,
             collapse: ref(true)
         }
     },
@@ -89,6 +93,7 @@ export default{
         window.addEventListener('resize', ()=>{
             this.windowWidth = window.document.documentElement.offsetWidth
             this.widthHeight = window.document.documentElement.offsetHeight
+            this.widthHeight = this.widthHeight < 900 ? 934 : this.widthHeight
         })
     },
     watch:{
@@ -102,7 +107,7 @@ export default{
            this.searching = val.length > 0
            this.hostFindResult.splice(0, this.hostFindResult.length)
            this.hostList.forEach((item)=>{
-            if(item.host.indexOf(val) > -1){
+            if(item.host.indexOf(val) > -1 || item.name.indexOf(val) > -1){
                 this.hostFindResult.push(reactive(item))
             }
            })
@@ -123,6 +128,7 @@ export default{
         margin: 0 auto;
         height: 100%;
         cursor: pointer;
+        line-height: 30px;
 
         h2{
             text-align: center;
@@ -143,7 +149,7 @@ export default{
         top: 100%;
         height: 0px;
         opacity: 0;
-        background-color: #2e2e30;
+        background-color: #182030;
         transition: all .5s ease-in-out;
 
         .list_content{
@@ -174,9 +180,14 @@ export default{
             display: flex;
             flex-wrap: wrap;
             max-height: 385px;
+            box-sizing: border-box;
+            padding: 10px;
 
             .host_item{
-                width: 170px;
+                width: 140px;
+                height: 50px;
+                box-sizing: border-box;
+                padding-top: 10px;
                 margin-right: 24px;
                 margin-bottom: 24px;
                 cursor: pointer;

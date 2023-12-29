@@ -44,6 +44,10 @@ html, body, #content {
   height: 100%;
 }
 
+#content{
+  overflow: hidden;
+}
+
 #nprogress .bar {
   background: linear-gradient(to right, #d31146, rgb(255, 150, 38)) !important; //进度条颜色
 }
@@ -71,5 +75,10 @@ html, body, #content {
   left:0;
 }
 
+
+body[arco-theme='dark']{
+  --color-menu-dark-bg: red !important;
+  --color-menu-light-bg: #293348 !important;
+}
 
 </style>

@@ -18,6 +18,25 @@
           <a-menu-item key="4">克隆配置</a-menu-item>
         </a-menu>
       </div>
+      <div style="width: 320px;">
+        <a-input :style="{width:'320px'}" placeholder="搜索:站点、服务器" :size="size" allow-clear />
+      </div>
+      <div class="options">
+        <div class="icon">
+          <a-tooltip content="消息盒子" position="bottom">
+            <icon-message />
+          </a-tooltip>
+        </div>
+        <div class="icon">
+          <a-tooltip content="任务队列" position="bottom">
+            <icon-settings />
+          </a-tooltip>
+        </div>
+        <div class="user">
+          <div class="user_icon" :style="{backgroundImage:`url(${userIcon})`}"></div>
+          <h4>超级管理员</h4>
+        </div>
+      </div>
     </div>
     <div class="work_space">
       <div class="menu" :style="{width: width}">
@@ -54,7 +73,9 @@
         </a-menu>
       </div>
       <div class="work_staging" :style="{width: `calc(100% - ${width})`}">
-        <router-view></router-view>
+        <KeepAlive>
+          <router-view></router-view>
+        </KeepAlive>
       </div>
     </div>
   </div>
@@ -65,6 +86,7 @@
 // import CodeView from "@/components/CodeView.vue"
 import { reactive,ref } from 'vue'
 import HostList from '@/views/home/components/HostList.vue'
+import userIcon from "@/assets/home/user_default.png";
 
 export default {
     name: "Login",
@@ -366,7 +388,8 @@ export default {
           }
         ]),
         
-        width: ref('200px')
+        width: ref('200px'),
+        userIcon: ref(userIcon)
       }
     },
     methods:{
@@ -392,8 +415,10 @@ export default {
     .title{
       width: 100%;
       height: 60px;
-      background-color: #232324;
+      background-color: var(--color-menu-light-bg);
       display: flex;
+      align-items: center;
+      position: relative;
 
       .host_list{
         width: 200px;
@@ -402,7 +427,53 @@ export default {
       }
 
       .child_menu{
-        width: 800px;
+        width: 700px;
+      }
+
+      .options{
+        position: absolute;
+        right: 20px;
+        width: calc(100% - 200px - 1700px);
+        height: 100%;
+        display: flex;
+        justify-content: right;
+        align-items: center;
+
+        .user{
+          width: 110px;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          .user_icon{
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-size: 100% 100%;
+          }
+
+          h4{
+            width: 72px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            cursor: pointer;
+            color: white;
+          }
+        }
+        
+        .icon{
+          color: white;
+          font-size: 24px;
+          cursor: pointer;
+          margin-right: 20px;
+          transition: color .4s;
+
+          &:hover{
+            color: #3C7EFF;
+          }
+        }
       }
     }
 
@@ -410,16 +481,19 @@ export default {
       width: 100%;
       height: calc(100% - 60px);
       display: flex;
+      justify-content: space-between;
 
       .menu{
         height: 100%;
         overflow: hidden;
-        background-color: #2e2e30;
+        background-color: var(--color-menu-light-bg);
         transition: width .3s;
+        background-repeat: no-repeat;
       }
 
       .work_staging{
         height: 100%;
+        transition: all .3s;
       }
     }
 }
