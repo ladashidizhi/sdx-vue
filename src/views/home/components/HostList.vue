@@ -132,12 +132,12 @@ export default{
 
         h2{
             text-align: center;
-            color: #909399;
+            color: var(--color-text-2);
         }
 
         h3{
             text-align: center;
-            color: #909399;
+            color: var(--color-text-2);
         }
     }
 

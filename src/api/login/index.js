@@ -1,5 +1,10 @@
-import request from "../request";
+import { Request } from "../request";
 
-export function Login() {
-
+// 登录函数
+// @param: username 用户名
+// @param: password 密码
+export function Login(username, password) {
+    return Request.post("/auth/login",{
+        username, password
+    })
 }

@@ -10,6 +10,7 @@
         <div class="textarea">
           <input type="text" 
                  placeholder="用户名" 
+                 v-model="username.value"
                  @focus="username.focus=true"
                  @blur="username.focus=false"
                   />
@@ -23,6 +24,7 @@
         </div>
         <div class="textarea pwd">
           <input type="password" 
+                 v-model="password.value"
                  placeholder="密码" 
                  @focus="password.focus=true"
                  @blur="password.focus=false"
@@ -31,7 +33,7 @@
         <div class="line button_pwd_line" 
              :style="{'transform': password.focus ? '' : 'scaleX(0)'}"></div>
       </div>
-      <div class="login_button">
+      <div class="login_button" @click="login">
         <div>登录</div>
       </div>
     </div>
@@ -39,15 +41,19 @@
 </template>
 
 <script>
-import { Request } from '@/api/request'
-
 import * as THREE from 'three';
 import { ref, reactive } from 'vue';
 import CLOUDS from 'vanta/dist/vanta.clouds.min'
 
+import { Login } from '@/api/login/index'
+
+import { useUsersStore } from '@/store/user.js'
+
 export default {
     name: "Login",
     setup(){
+      const userStore = useUsersStore()
+
       const date = new Date()
       const CloudConfig = ref({
         Light:{
@@ -91,11 +97,30 @@ export default {
         DarkMode,
         username,
         password,
+        userStore
       }
     },
     methods:{
-      login(){
-        this.$router.push("/home")
+      async login(e){
+        if(e){
+          if(e.keyCode !== 13){
+            return
+          }
+        }
+        if(this.username.value.trim().length === 0){
+          this.$message.error("请正确填写用户名")
+        }else if(this.password.value.trim().length === 0){
+          this.$message.error("请正确填写密码")
+        }else{
+          const result = await Login(this.username.value, this.password.value)
+          if(result.code === 7){
+            this.$message.error("用户名或密码错误")
+          }else{
+            this.$message.success("登录成功")
+            this.userStore.setUserInfo(result.data)
+            this.$router.push("/home")
+          }
+        }
       },
       updateCloud(date = new Date(), focus=false){
         const darkMode = date.getHours() >= 18 || date.getHours() <= 7
@@ -108,7 +133,7 @@ export default {
           this.CloudCompoment.destroy()
         }catch(e){
         }
-        this.CloudCompoment = this.CloudCompoment = CLOUDS({
+        this.CloudCompoment = CLOUDS({
           THREE,
           el:"#login",
           mouseControls: true,
@@ -117,20 +142,21 @@ export default {
           minHeight: 200.00,
           minWidth: 200.00,
           ...config,
-          speed: 3.00
+          speed: 3
         })
       }
     },
     mounted(){
+      window.addEventListener('keydown', this.login)
       this.updateCloud()
       this.CloudCompomentInterVal = setInterval(()=>{
         this.updateCloud()
       }, 5000)
     },
     beforeUnmount(){
-      setTimeout(()=>{
-        clearInterval(this.CloudCompomentInterVal)
-      },1000)
+      window.removeEventListener('keydown', this.login)
+      clearInterval(this.CloudCompomentInterVal)
+      this.CloudCompoment.destroy()
     }
 }
 </script>
@@ -205,7 +231,7 @@ export default {
             color: white;
           }
           &::-webkit-input-placeholder { /* Firefox 19+ */
-            color: white;
+            color: #909399;
           }
         }
       }

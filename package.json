@@ -24,6 +24,8 @@
     "monaco-editor": "^0.45.0",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.7",
+    "pinia-plugin-persistedstate": "^3.2.1",
+    "qs": "^6.11.2",
     "sass": "^1.69.5",
     "sass-loader": "^13.3.2",
     "three": "^0.121.0",

@@ -77,8 +77,11 @@ html, body, #content {
 
 
 body[arco-theme='dark']{
-  --color-menu-dark-bg: red !important;
   --color-menu-light-bg: #293348 !important;
+}
+
+body[arco-theme='light']{
+  
 }
 
 </style>

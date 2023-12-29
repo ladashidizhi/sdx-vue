@@ -3,8 +3,14 @@ import { defineStore } from 'pinia'
 export const useUsersStore = defineStore('users', {
     state() {
         return {
-            userId: 0, // User ID
-            token: "" // Token信息
+            user: null
         }
-    }
+    },
+    actions:{
+        setUserInfo(userInfo){
+            this.user = userInfo
+            localStorage.setItem("userInfo", JSON.stringify(userInfo))
+        }
+    },
+    persist: true
 })
