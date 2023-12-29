@@ -15,7 +15,7 @@
                 </div>
                 <a-scrollbar style="height:100%;overflow: auto;margin-top: 20px;">
                     <div class="hosts_addr" v-if="(searching ? hostFindResult : hostList).length > 0">
-                        <div class="host_item" v-for="item,index in (searching ? hostFindResult : hostList)" :key="index" :title="item.name+'\n'+item.host" @click="updateHost(item)">
+                        <div class="host_item" v-for="item,index in (searching ? hostFindResult : hostList)" :key="index" :title="item.name+'\n'+item.host" @click="updateHost(item, index)" :style="{'background-color': (selectIndex === index ? '#5aaafb' : '')}">
                                 <h2>{{ item.name }}</h2>
                                 <h3>{{ item.host }}</h3>
                                 <div class="icon" :style="getStyle(item.status)"></div>
@@ -40,7 +40,7 @@ export default{
     },
     setup(){
         const hostInfo = ref({
-            "id": 0,
+            "id": -1,
             "name": "",
             "host": ""
         })
@@ -55,7 +55,8 @@ export default{
             hostInfo,
             windowWidth,
             widthHeight,
-            collapse: ref(true)
+            collapse: ref(true),
+            selectIndex: ref(-1)
         }
     },
     methods:{
@@ -75,10 +76,11 @@ export default{
                     return {'background-color': '#67C23A',  'box-shadow': '0 0 20px #67C23A'}
             }
         },
-        updateHost(item){
+        updateHost(item, idx){
             this.hostInfo.id = item.id
             this.hostInfo.name = item.name
             this.hostInfo.host = item.host
+            this.selectIndex = idx
             this.$emit('updateHost', item)
         }
     },
