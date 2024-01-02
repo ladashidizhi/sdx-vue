@@ -1,11 +1,13 @@
 <template>
-  <div class="item">
-    <div class="cell">
-      <h3>{{ item.name }}</h3>
+  <a-card class="card-demo" hoverable>
+    <div class="custom-content">
+      <span>{{item.name}}</span>
       <h2 class="h">{{item.size}}</h2>
-      <p v-if="item.siteSize!==0">{{ item.siteName }}:{{item.siteSize }}</p>
     </div>
-  </div>
+    <template v-if="item.siteSize !==0" #actions>
+      <span class="custom-actions">{{ item.siteName }}：{{item.siteSize }}</span>
+    </template>
+  </a-card>
 </template>
 
 <script>
@@ -21,30 +23,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.item {
-  width: 200px;
+.card-demo {
+  width: 99%;
+  margin-left: 0px;
+  transition-property: all;
   background-color: white;
+  border: none;
+  margin-right: 8px;
   border-radius: 5px;
-  margin-right: 10px;
-  min-width: 150px;
-  .cell {
-    width: 94%;
-    height: 100%;
-    padding: 4px;
-    h3 {
-      text-align: left;
-      color: #000;
-    }
-    p {
-      text-align: right;
-      color: #000;
-    }
-    .h {
+  .custom-actions {
+    color: black;
+  }
+  .custom-content {
+    color: black;
+    display: flex;
+    flex-direction: column;
+    h2 {
       text-align: center;
-      color: #000;
-      padding-top: 5px;
-      padding-bottom: 5px;
+      padding-top: 15px;
     }
   }
+}
+.card-demo.ant-card-head {
+  border-bottom: none; /* 移除分隔线 */
+}
+.card-demo:hover {
+  transform: translateY(-4px);
 }
 </style>

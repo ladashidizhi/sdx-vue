@@ -1,15 +1,46 @@
 
 
-
-
 <template>
-  <div class="items">
-    <h2>你好</h2>
-    <a-table :columns="columns" :data="data" />
-  </div>
+  <a-card class="card-demo" hoverable>
+    <template #title>
+      <span class="custom-title">{{ title }}</span>
+    </template>
+    <span class="custom-content">
+      <div v-if="isType">
+        <div class="row_table">
+          <div class="row_cell">
+            <a-table
+              :pagination="false"
+              :columns="columns"
+              :data="data"
+              :scroll="scrolls"
+              :scrollbar="ture"
+            />
+          </div>
+          <div class="row_cell">
+            <a-table
+              :pagination="false"
+              :columns="columns_fall"
+              :data="data_fall"
+              :scroll="scrolls"
+              :scrollbar="ture"
+            />
+          </div>
+        </div>
+      </div>
+      <a-table
+        v-if="!isType"
+        :pagination="false"
+        :columns="columns"
+        :data="data"
+        :scroll="scroll"
+        :scrollbar="ture"
+      />
+    </span>
+  </a-card>
 </template>
 <script>
-import { reactive } from "vue";
+import { ref } from "vue";
 export default {
   name: "Tabular",
   props: {
@@ -17,61 +48,64 @@ export default {
       type: Array,
       required: true,
     },
+    columns_fall: {
+      type: Array,
+      required: true,
+    },
+    data: {
+      type: Array,
+      required: true,
+    },
+    data_fall: {
+      type: Array,
+      required: true,
+    },
+    title: "",
+    isType: false,
   },
   setup() {
-    const data = reactive([
-      {
-        key: "1",
-        name: "Jane Doe",
-        salary: 23000,
-        address: "32 Park Road, London",
-        email: "jane.doe@example.com",
-      },
-      {
-        key: "2",
-        name: "Alisa Ross",
-        salary: 25000,
-        address: "35 Park Road, London",
-        email: "alisa.ross@example.com",
-      },
-      {
-        key: "3",
-        name: "Kevin Sandra",
-        salary: 22000,
-        address: "31 Park Road, London",
-        email: "kevin.sandra@example.com",
-      },
-      {
-        key: "4",
-        name: "Ed Hellen",
-        salary: 17000,
-        address: "42 Park Road, London",
-        email: "ed.hellen@example.com",
-      },
-      {
-        key: "5",
-        name: "William Smith",
-        salary: 27000,
-        address: "62 Park Road, London",
-        email: "william.smith@example.com",
-      },
-    ]);
-
+    const scrollbar = ref(true);
+    const scroll = {
+      x: 500,
+      y: 200,
+    };
+    const scrolls = {
+      x: 400,
+      y: 200,
+    };
     return {
-      data,
+      scroll,
+      scrolls,
+      scrollbar,
     };
   },
 };
 </script>
 <style lang="scss" scoped>
-.items {
-  width: 40%;
-  height: 60%;
+.card-demo {
+  width: 99%;
+  margin-left: 0px;
+  transition-property: all;
   background-color: white;
-  border-radius: 10px;
-  padding: 10px;
-  h2 {
-    padding-bottom: 10px;
+  border: 1px solid white;
+  border-radius: 5px;
+  .custom-title {
+    color: black; /* 设置标题颜色为红色 */
   }
+  .custom-content {
+    color: black; /* 设置内容颜色为蓝色 */
+    .row_table {
+      width: 100%;
+      display: flex;
+      margin-right: 8px;
+      .row_cell {
+        width: 50%;
+        padding-right: 8px;
+      }
+    }
+  }
+}
+.card-demo:hover {
+  transform: translateY(-4px);
 }
 </style>
