@@ -11,7 +11,7 @@
         <host-list :hostList="hostList" @updateHost="updateHost"></host-list>
       </div>
       <div class="child_menu">
-        <a-menu mode="horizontal" :default-selected-keys="['1']">
+        <a-menu mode="horizontal" :default-selected-keys="['1']" @menu-item-click="onRowPage">
           <a-menu-item key="1">首页</a-menu-item>
           <a-menu-item key="2">站点管理</a-menu-item>
           <a-menu-item key="3">效果分析</a-menu-item>
@@ -129,276 +129,6 @@ export default {
           host: "192.168.60.73",
           status: 2,
         },
-        {
-          id: 4,
-          name: "测试客户机4",
-          host: "192.168.40.74",
-          status: 0,
-        },
-        {
-          id: 5,
-          name: "测试客户机5",
-          host: "192.168.20.75",
-          status: 1,
-        },
-        {
-          id: 6,
-          name: "测试客户机6",
-          host: "192.168.30.76",
-          status: 2,
-        },
-        {
-          id: 1,
-          name: "123客户机1",
-          host: "192.168.50.71",
-          status: 0,
-        },
-        {
-          id: 2,
-          name: "789客户机2",
-          host: "192.168.50.72",
-          status: 1,
-        },
-        {
-          id: 3,
-          name: "测试客户机3",
-          host: "192.168.60.73",
-          status: 2,
-        },
-        {
-          id: 4,
-          name: "测试客户机4",
-          host: "192.168.40.74",
-          status: 0,
-        },
-        {
-          id: 5,
-          name: "测试客户机5",
-          host: "192.168.20.75",
-          status: 1,
-        },
-        {
-          id: 6,
-          name: "测试客户机6",
-          host: "192.168.30.76",
-          status: 2,
-        },
-        {
-          id: 1,
-          name: "123客户机1",
-          host: "192.168.50.71",
-          status: 0,
-        },
-        {
-          id: 2,
-          name: "789客户机2",
-          host: "192.168.50.72",
-          status: 1,
-        },
-        {
-          id: 3,
-          name: "测试客户机3",
-          host: "192.168.60.73",
-          status: 2,
-        },
-        {
-          id: 4,
-          name: "测试客户机4",
-          host: "192.168.40.74",
-          status: 0,
-        },
-        {
-          id: 5,
-          name: "测试客户机5",
-          host: "192.168.20.75",
-          status: 1,
-        },
-        {
-          id: 6,
-          name: "测试客户机6",
-          host: "192.168.30.76",
-          status: 2,
-        },
-        {
-          id: 1,
-          name: "123客户机1",
-          host: "192.168.50.71",
-          status: 0,
-        },
-        {
-          id: 2,
-          name: "789客户机2",
-          host: "192.168.50.72",
-          status: 1,
-        },
-        {
-          id: 3,
-          name: "测试客户机3",
-          host: "192.168.60.73",
-          status: 2,
-        },
-        {
-          id: 4,
-          name: "测试客户机4",
-          host: "192.168.40.74",
-          status: 0,
-        },
-        {
-          id: 5,
-          name: "测试客户机5",
-          host: "192.168.20.75",
-          status: 1,
-        },
-        {
-          id: 6,
-          name: "测试客户机6",
-          host: "192.168.30.76",
-          status: 2,
-        },
-        {
-          id: 1,
-          name: "123客户机1",
-          host: "192.168.50.71",
-          status: 0,
-        },
-        {
-          id: 2,
-          name: "789客户机2",
-          host: "192.168.50.72",
-          status: 1,
-        },
-        {
-          id: 3,
-          name: "测试客户机3",
-          host: "192.168.60.73",
-          status: 2,
-        },
-        {
-          id: 4,
-          name: "测试客户机4",
-          host: "192.168.40.74",
-          status: 0,
-        },
-        {
-          id: 5,
-          name: "测试客户机5",
-          host: "192.168.20.75",
-          status: 1,
-        },
-        {
-          id: 6,
-          name: "测试客户机6",
-          host: "192.168.30.76",
-          status: 2,
-        },
-        {
-          id: 1,
-          name: "123客户机1",
-          host: "192.168.50.71",
-          status: 0,
-        },
-        {
-          id: 2,
-          name: "789客户机2",
-          host: "192.168.50.72",
-          status: 1,
-        },
-        {
-          id: 3,
-          name: "测试客户机3",
-          host: "192.168.60.73",
-          status: 2,
-        },
-        {
-          id: 4,
-          name: "测试客户机4",
-          host: "192.168.40.74",
-          status: 0,
-        },
-        {
-          id: 5,
-          name: "测试客户机5",
-          host: "192.168.20.75",
-          status: 1,
-        },
-        {
-          id: 6,
-          name: "测试客户机6",
-          host: "192.168.30.76",
-          status: 2,
-        },
-        {
-          id: 1,
-          name: "123客户机1",
-          host: "192.168.50.71",
-          status: 0,
-        },
-        {
-          id: 2,
-          name: "789客户机2",
-          host: "192.168.50.72",
-          status: 1,
-        },
-        {
-          id: 3,
-          name: "测试客户机3",
-          host: "192.168.60.73",
-          status: 2,
-        },
-        {
-          id: 4,
-          name: "测试客户机4",
-          host: "192.168.40.74",
-          status: 0,
-        },
-        {
-          id: 5,
-          name: "测试客户机5",
-          host: "192.168.20.75",
-          status: 1,
-        },
-        {
-          id: 6,
-          name: "测试客户机6",
-          host: "192.168.30.76",
-          status: 2,
-        },
-        {
-          id: 1,
-          name: "123客户机1",
-          host: "192.168.50.71",
-          status: 0,
-        },
-        {
-          id: 2,
-          name: "789客户机2",
-          host: "192.168.50.72",
-          status: 1,
-        },
-        {
-          id: 3,
-          name: "测试客户机3",
-          host: "192.168.60.73",
-          status: 2,
-        },
-        {
-          id: 4,
-          name: "测试客户机4",
-          host: "192.168.40.74",
-          status: 0,
-        },
-        {
-          id: 5,
-          name: "测试客户机5",
-          host: "192.168.20.75",
-          status: 1,
-        },
-        {
-          id: 6,
-          name: "测试客户机6",
-          host: "192.168.30.76",
-          status: 2,
-        },
       ]),
 
       width: ref("200px"),
@@ -408,6 +138,18 @@ export default {
   methods: {
     updateHost(host) {
       console.log(host);
+    },
+    onRowPage(key) {
+      let path = "";
+      switch (Number(key)) {
+        case 1:
+          path = "/home/extract";
+          break;
+        case 2:
+          path = "/home/site";
+          break;
+      }
+      this.$router.push(path);
     },
     jumpPage(key) {
       let path = "";
