@@ -1,52 +1,61 @@
 <template>
-  <div class="topbar-shell" ref="shellRef" :style="shellStyle">
-    <div
-      class="topbar"
-      ref="barRef"
-      :class="{ 'is-smart-sticky': isSticky }"
-      :style="barStyle"
-    >
-      <div class="brand">
-        <div class="logo">⚡️</div>
-        <div class="brand-meta">
-          <strong>超级管理员控制台</strong>
-          <div class="brand-subrow">
-            <div class="admin-switch" aria-label="切换管理员账号">
-              <span class="admin-switch-label">{{ currentAdminLabel }}</span>
-              <select class="admin-select" :value="selectedAdmin" @change="onSelectChange">
-                <option v-for="o in adminOptions" :key="o.value" :value="o.value">{{ o.value }}</option>
-              </select>
-            </div>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">⚡️</div>
+      <div class="brand-meta">
+        <strong>超级管理员控制台</strong>
+
+        <!-- ✅ 管理员账号快速切换（下拉选择，固定 4 个账号） -->
+        <div class="brand-subrow" v-if="isAdminPanelUser">
+          <div class="admin-switch" aria-label="切换管理员账号">
+            <!-- 左侧显示账号对应的名称；仅当当前登录账号为 admin 时显示右侧下拉切换 -->
+            <span class="admin-switch-label">{{ currentAdminLabel }}</span>
+			<div>
+				<select
+				  v-if="canSwitchAdmin"
+				  class="admin-select"
+				  :value="selectedAdmin"
+				  @change="onSelectChange"
+				>
+				  <option v-for="o in adminOptions" :key="o.value" :value="o.value">{{ o.value }}</option>
+				</select>
+				<select
+				  v-else
+				  class="admin-select"
+				>
+				  <option value="admin" selected>{{ userStore.user.username }}</option>
+				</select>
+			</div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="pillnav">
-        <nav class="pill" aria-label="主导航">
-          <router-link to="/admin" exact-active-class="active">首页大厅</router-link>
-          <router-link to="/admin/tj" exact-active-class="active">IP统计</router-link>
-          <router-link to="/admin/servers" exact-active-class="active">服务器管理</router-link>
-          <router-link to="/admin/domains" exact-active-class="active">SEO域名</router-link>
-          <router-link to="/admin/accounts" exact-active-class="active">账户管理</router-link>
-        </nav>
+    <div class="pillnav">
+      <nav class="pill" aria-label="主导航">
+        <router-link to="/admin" exact-active-class="active">首页大厅</router-link>
+        <router-link to="/admin/tj" exact-active-class="active">IP统计</router-link>
+        <router-link to="/admin/servers" exact-active-class="active">服务器管理</router-link>
+        <router-link to="/admin/domains" exact-active-class="active">SEO域名</router-link>
+        <router-link to="/admin/accounts" exact-active-class="active">账户管理</router-link>
+      </nav>
+    </div>
+
+    <div class="actions">
+      <div v-if="showAlarm" class="alarm-chip" title="异常警报">
+        <span class="alarm-dot"></span>
+        <span class="alarm-text">异常警报</span>
+        <span class="alarm-count">{{ abnormal }}</span>
       </div>
 
-      <div class="actions">
-        <div v-if="showAlarm" class="alarm-chip" title="异常警报">
-          <span class="alarm-dot"></span>
-          <span class="alarm-text">异常警报</span>
-          <span class="alarm-count">{{ abnormal }}</span>
-        </div>
-
-        <!-- <button v-if="showRefresh" class="btn" type="button" @click="$emit('refresh')">刷新数据</button> -->
-        <button class="btn btn-logout" type="button" @click="$emit('logout')">登出</button>
-      </div>
+      <!-- <button v-if="showRefresh" class="btn" type="button" @click="$emit('refresh')">刷新数据</button> -->
+      <button class="btn btn-logout" type="button" @click="$emit('logout')">登出</button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
+import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { Message } from '@arco-design/web-vue'
 import { useUsersStore } from '@/store/user.js'
@@ -64,101 +73,11 @@ const emit = defineEmits(['refresh', 'logout'])
 
 // store
 const userStore = useUsersStore()
+
 const router = useRouter()
 const route = useRoute()
-const shellRef = ref(null)
-const barRef = ref(null)
-const isSticky = ref(false)
-const barHeight = ref(0)
-const fixedLeft = ref(0)
-const fixedWidth = ref(0)
 
-let scrollerEl = null
-let ticking = false
-
-function getScrollTop() {
-  if (scrollerEl && scrollerEl !== window) return scrollerEl.scrollTop || 0
-  return window.scrollY || document.documentElement.scrollTop || 0
-}
-
-function measure() {
-  nextTick(() => {
-    const bar = barRef.value
-    const shell = shellRef.value
-    if (!bar || !shell) return
-    barHeight.value = bar.offsetHeight || 0
-    const rect = shell.getBoundingClientRect()
-    fixedLeft.value = rect.left + 14
-    fixedWidth.value = rect.width -28
-  })
-}
-
-function setSticky(next) {
-  const v = !!next
-  if (isSticky.value === v) return
-  isSticky.value = v
-  if (v) measure()
-}
-
-function handleScroll() {
-  const cur = getScrollTop()
-
-  // 滚动超过“头部自身高度”就固定；回到顶部则取消
-  const threshold = Math.max(12, barHeight.value || 0)
-  setSticky(cur > threshold)
-}
-
-function onScrollEvent() {
-  if (ticking) return
-  ticking = true
-  requestAnimationFrame(() => {
-    ticking = false
-    handleScroll()
-  })
-}
-
-onMounted(() => {
-  scrollerEl = document.getElementById('content') || window
-  // 初次测量，拿到头部高度阈值
-  measure()
-
-  if (scrollerEl && scrollerEl !== window) {
-    scrollerEl.addEventListener('scroll', onScrollEvent, { passive: true })
-  } else {
-    window.addEventListener('scroll', onScrollEvent, { passive: true })
-  }
-  window.addEventListener('resize', measure, { passive: true })
-})
-
-onBeforeUnmount(() => {
-  if (scrollerEl && scrollerEl !== window) {
-    scrollerEl.removeEventListener('scroll', onScrollEvent)
-  } else {
-    window.removeEventListener('scroll', onScrollEvent)
-  }
-  window.removeEventListener('resize', measure)
-})
-
-const shellStyle = computed(() => {
-  // 吸顶时 shell 固定高度占位，避免内容跳动
-  if (!isSticky.value || !barHeight.value) return {}
-  return { height: `${barHeight.value}px` }
-})
-
-const barStyle = computed(() => {
-  if (!isSticky.value) return {}
-  return {
-    position: 'fixed',
-    top: '0',
-    left: `${fixedLeft.value}px`,
-    width: `${fixedWidth.value}px`,
-    zIndex: 80,
-  }
-})
-
-// =====================
-// 管理员账号切换（固定 4 个账号）
-// =====================
+// 固定 4 个管理员账号（统一用小写进行比对）
 const adminOptions = [
   { label: '总管理员', value: 'admin' },
   { label: '撸大师管理员', value: 'lds-admin' },
@@ -168,8 +87,14 @@ const adminOptions = [
 const adminUsers = adminOptions.map(x => x.value)
 
 const currentUserName = computed(() => {
+  // 兼容项目里多种字段：user.userName / username / userName
   const u = userStore.user || {}
-  const name = u?.user?.userName || u?.username || u?.userName || u?.name || ''
+  const name =
+    u?.user?.userName ||
+    u?.username ||
+    u?.userName ||
+    u?.name ||
+    ''
   return String(name || '')
 })
 
@@ -181,6 +106,22 @@ const selectedAdmin = computed(() => {
 const currentAdminLabel = computed(() => {
   const cur = String(selectedAdmin.value || '').toLowerCase()
   return adminOptions.find(x => x.value === cur)?.label || '总管理员'
+})
+
+// 仅 admin/lds-admin/ok-admin/niu-admin 进入后台时展示标签；
+// 但只有当“最初登录账号”为 admin 时才允许出现下拉切换。
+const isAdminPanelUser = computed(() => {
+  const cur = String(currentUserName.value || '').toLowerCase()
+  return adminUsers.includes(cur)
+})
+const canSwitchAdmin = computed(() => {
+  // admin 登录后允许切换到其它管理员账号，但依旧保留切换下拉
+  // 通过登录时写入的 __rootAdmin 标记来判断。
+  const u = userStore.user || {}
+  if (u && u.__rootAdmin === true) return true
+
+  // 兼容旧数据：若没有标记但当前账号就是 admin，也允许显示
+  return String(currentUserName.value || '').toLowerCase() === 'admin'
 })
 
 function onSelectChange(e) {
@@ -196,6 +137,8 @@ function _patchUserName(userObj, nextName) {
   // 常用字段
   userObj.username = n
   userObj.userName = userObj.userName ?? n
+
+  // 后端常见结构：{ user: { userName: 'xxx' } }
   if (!userObj.user || typeof userObj.user !== 'object') {
     userObj.user = { userName: n }
   } else {
@@ -219,9 +162,12 @@ async function switchAdmin(u) {
   const label = adminOptions.find(x => x.value === next)?.label || next
   Message.success(`已切换为 ${label}`)
 
-  // 立即刷新当前页面数据（最稳妥：重载）
+  // 立即刷新当前页面数据（最稳妥的方式：重载）
+  // 这样所有依赖 userStore 的页面都会同步更新。
+  // 仅在 /admin 下生效；若不在 /admin，则跳转到 /admin。
+  const target = next ? '/admin' : '/admin'
   if (!route.path.startsWith('/admin')) {
-    await router.replace('/admin')
+    await router.replace(target)
   } else {
     await router.replace(route.fullPath)
   }
@@ -232,3 +178,4 @@ async function switchAdmin(u) {
 const onRefresh = () => emit('refresh')
 const onLogout = () => emit('logout')
 </script>
+

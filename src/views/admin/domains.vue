@@ -115,7 +115,7 @@ import { ref } from "vue";
 import dayjs from "dayjs";
 import TimeDataCell from "@/views/effect_analyse/components/TimeDataCell.vue";
 import { formatYMDHNS } from "@/utils/uitilities.js";
-import { websiteList, getUserList, getSeoLeaderList } from "@/api/personal/index.js";
+import { websiteList, getUserList } from "@/api/personal/index.js";
 
 export default {
   components: { TimeDataCell, AdminHeader },
@@ -202,7 +202,6 @@ export default {
       }),
       codeHeight: ref(0),
       loading: ref(false),
-      scopeLeaderId: ref(0),
     };
   },
 
@@ -224,7 +223,6 @@ export default {
         pageSize: this.pagination.pageSize,
         staff: this.form.staff,
         domain: this.form.domain,
-        seo_leader_id: this.scopeLeaderId || 0,
         startDate: startTime,
         endDate: endTime,
       };
@@ -237,25 +235,9 @@ export default {
     },
     async getUser() {
       const response = await getUserList();
-      if (response.code !== 0) return;
-      let list = response.data.list || [];
-      const u = this.userStore.user || {};
-      const selectedAdmin = String(u?.user?.userName || u?.userName || u?.username || "admin").toLowerCase();
-      const adminValues = ["admin", "lds-admin", "ok-admin", "niu-admin"];
-      const currentScope = adminValues.includes(selectedAdmin) ? selectedAdmin : "admin";
-
-      let scopeLeaderId = 0;
-      if (currentScope !== "admin") {
-        const leaderRes = await getSeoLeaderList();
-        const leaders = leaderRes?.code === 0 && Array.isArray(leaderRes?.data) ? leaderRes.data : [];
-        const leader = leaders.find((l) => String(l.userName || "").toLowerCase() === currentScope);
-        if (leader && leader.id) {
-          list = list.filter((item) => (item.seoLeaderId || 0) === leader.id);
-          scopeLeaderId = leader.id;
-        }
+      if (response.code === 0) {
+        this.userList = response.data.list;
       }
-      this.scopeLeaderId = scopeLeaderId;
-      this.userList = list;
     },
     onTime(time) {
       return formatYMDHNS(time); ///时间格式
@@ -305,11 +287,13 @@ export default {
     // 在组件销毁前移除事件监听
     window.removeEventListener("resize", this.setComponentHeight);
   },
-  async mounted() {
+  mounted() {
     this.setComponentHeight();
+    // 初始化时设置组件高度
+    // 监听窗口大小变化，并重新设置组件高度
     window.addEventListener("resize", this.setComponentHeight);
-    await this.getUser();
     this.fetchData();
+    this.getUser();
   },
 };
 </script>

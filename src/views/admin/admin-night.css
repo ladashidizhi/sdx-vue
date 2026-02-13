@@ -1276,8 +1276,20 @@
 
 @media screen and (max-width: 1500px) {
 	.wrap {
-		margin: 0 auto 22px;
+		margin: 15px auto 22px;
 		padding: 0 18px 30px;
+	}
+	.brand {
+		padding: 5px 12px;
+	}
+	.brand strong {
+	    font-size: 18px;
+	}
+	.brand-meta {
+	    min-width: 180px;
+	}
+	.admin-select {
+	    padding: 2px 25px 2px 10px;
 	}
 	.main {
 		padding: 0 14px 18px;

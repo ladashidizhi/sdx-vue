@@ -8,7 +8,6 @@ export async function GetHostsList(page) {
       pageSize: page.pageSize,
       host_id: page.host_id,
       user_id: Number(page.user_id),
-      seo_leader_id: Number(page.seo_leader_id) || 0,
       key_name: page.key_name,
       host_type: Number(page.host_type),
     })

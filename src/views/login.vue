@@ -145,6 +145,9 @@ export default {
           this.$message.success("登录成功");
           // 兼容后端不返回用户名字段：把本次输入的用户名也写入 store
           const userInfo = { ...(result.data || {}), username: this.username.value };
+          // ✅ 记录是否以“总管理员 admin”登录（切换到其它管理员账号后仍保留可切换能力）
+          // 说明：这是前端展示/便捷切换用的标记，不影响后端鉴权。
+          userInfo.__rootAdmin = String(this.username.value || "").toLowerCase() === "admin";
           this.userStore.setUserInfo(userInfo);
 
           // ✅ 权限分流：admin / lds-admin / ok-admin / niu-admin 进入独立的 Admin 首页（与原首页区分）
