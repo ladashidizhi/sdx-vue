@@ -28,7 +28,7 @@
                   <template #title>
                     <icon-calendar />人员管理
                   </template>
-                  <OfficerCell />
+                  <OfficerCell v-if="scopeReady" :scope-leader-id="scopeLeaderId" />
                 </a-tab-pane>
                 <a-tab-pane key="2" :destroy-on-hide="true">
                   <template #title>
@@ -53,9 +53,10 @@
 
 <script setup>
 import AdminHeader from './components/AdminHeader.vue'
-import { reactive } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUsersStore } from '@/store/user'
+import { getSeoLeaderList } from '@/api/personal/index.js'
 import './admin-night.css'
 
 // 合并 accounts-data.vue 的依赖
@@ -74,6 +75,24 @@ const state = reactive({
 })
 
 const stats = state.stats
+
+// 左上角选中的组长视角：总管理员为 0；选了某组长则为该组长 id，人员管理只显示其组员
+const scopeLeaderId = ref(0)
+// 先解析好 scopeLeaderId 再挂载 OfficerCell，避免先显示全部再筛选的闪烁
+const scopeReady = ref(false)
+onMounted(async () => {
+  const u = userStore.user || {}
+  const selectedAdmin = String(u?.user?.userName || u?.userName || u?.username || 'admin').toLowerCase()
+  const adminValues = ['admin', 'lds-admin', 'ok-admin', 'niu-admin']
+  const currentScope = adminValues.includes(selectedAdmin) ? selectedAdmin : 'admin'
+  if (currentScope !== 'admin') {
+    const res = await getSeoLeaderList()
+    const leaders = (res?.code === 0 && Array.isArray(res?.data)) ? res.data : []
+    const leader = leaders.find((l) => String(l.userName || '').toLowerCase() === currentScope)
+    if (leader?.id) scopeLeaderId.value = leader.id
+  }
+  scopeReady.value = true
+})
 
 function onRefresh() {
   // 这里可以接入刷新接口

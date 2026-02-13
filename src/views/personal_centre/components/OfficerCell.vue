@@ -142,6 +142,10 @@ import {
 import { GetRoleList, getSeoLeaderList } from "@/api/personal/index.js";
 import { useUsersStore } from "@/store/user.js";
 export default {
+  props: {
+    /** 组长视角：非 0 时只显示该组长下属（seoLeaderId === scopeLeaderId） */
+    scopeLeaderId: { type: Number, default: 0 },
+  },
   setup() {
     const columns = [
       {
@@ -246,7 +250,11 @@ export default {
       this.loading = true;
       const response = await getUserList();
       if (response.code === 0) {
-        this.data = response.data.list;
+        let list = response.data.list || [];
+        if (this.scopeLeaderId > 0) {
+          list = list.filter((u) => (u.seoLeaderId || 0) === this.scopeLeaderId);
+        }
+        this.data = list;
       }
       this.loading = false;
     },
@@ -392,6 +400,11 @@ export default {
 
     //   this.fetchData();
     // },
+  },
+  watch: {
+    scopeLeaderId() {
+      this.fetchData();
+    },
   },
   mounted() {
     this.fetchData();
