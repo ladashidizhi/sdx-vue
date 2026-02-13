@@ -81,6 +81,16 @@ export async function getUserList() {
   }
 }
 
+// 获取组长列表（供「所属组长」下拉使用）
+export async function getSeoLeaderList() {
+  const request = await Request.get('/user/seo-leader/list')
+  if (request.code === 7) {
+    Message.error(request.msg)
+    return request
+  }
+  return request
+}
+
 // 重置用户密码
 export async function ResetPassword(id) {
   try {

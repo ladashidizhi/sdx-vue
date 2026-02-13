@@ -38,6 +38,9 @@
 		<template #employeesNum="{record}">
 		  <span v-if="record.userId===1">{{record.employeesNum}}</span>
 		</template>
+		<template #seoLeader="{record}">
+		  <span>{{ getSeoLeaderName(record.seoLeaderId) }}</span>
+		</template>
 
 		<template #operation="{record}">
 		  <a-space>
@@ -101,6 +104,19 @@
           allow-clear
         ></a-tree-select>
       </a-form-item>
+      <a-form-item field="seoLeaderId" label="所属组长">
+        <a-select
+          v-model="form.seoLeaderId"
+          placeholder="请选择组长（选谁即归属该组长）"
+          allow-clear
+          style="min-width: 200px"
+        >
+          <a-option :value="0">未选组长</a-option>
+          <a-option v-for="leader in seoLeaderList" :key="'leader-' + leader.id" :value="leader.id">
+            {{ leader.nickName || leader.userName || '组长' }}
+          </a-option>
+        </a-select>
+      </a-form-item>
       <a-form-item field="employeesNum" label="员工数量">
         <a-input-number v-model="form.employeesNum" placeholder="建议使用默认值1000" />
       </a-form-item>
@@ -123,7 +139,7 @@ import {
   addUser,
   setUserInfo,
 } from "@/api/personal/index.js";
-import { GetRoleList } from "@/api/personal/index.js";
+import { GetRoleList, getSeoLeaderList } from "@/api/personal/index.js";
 import { useUsersStore } from "@/store/user.js";
 export default {
   setup() {
@@ -139,6 +155,10 @@ export default {
       {
         title: "昵称",
         dataIndex: "nickName",
+      },
+      {
+        title: "组长",
+        slotName: "seoLeader",
       },
       {
         title: "服务器数量",
@@ -209,6 +229,7 @@ export default {
       data: ref([]),
       usersStore: useUsersStore(),
       authorityList: ref([]),
+      seoLeaderList: ref([]),
       isEdit: ref(false),
       isType: ref(false),
       rules,
@@ -250,6 +271,12 @@ export default {
         this.authorityList = newData;
       }
     },
+    async SeoLeaderData() {
+      const res = await getSeoLeaderList();
+      if (res && res.code === 0 && Array.isArray(res.data)) {
+        this.seoLeaderList = res.data;
+      }
+    },
     openEdit(type, model) {
       if (model != null) {
         this.form = {
@@ -260,6 +287,7 @@ export default {
           sideMode: model.sideMode,
           headerImg: model.headerImg,
           role_id: model.roles.length > 0 ? model.roles[0].id : null,
+          seoLeaderId: model.seoLeaderId != null ? model.seoLeaderId : 0,
           enable: model.enable,
           serversNum: model.serversNum,
           employeesNum: model.employeesNum,
@@ -272,6 +300,7 @@ export default {
           headerImg: "https://qmplusimg.henrongyi.top/gva_header.jpg",
           authorityId: 888,
           role_id: null,
+          seoLeaderId: 0,
           enable: true,
           serversNum: 1000,
           employeesNum: 1000,
@@ -311,6 +340,7 @@ export default {
         sideMode: model.sideMode,
         headerImg: model.headerImg,
         role_id: model.roles.length > 0 ? model.roles[0].id : 0,
+        seoLeaderId: model.seoLeaderId != null ? model.seoLeaderId : 0,
         authorityId: model.authorityId,
         enable: e,
         serversNum: model.serversNum,
@@ -319,6 +349,11 @@ export default {
 
       await setUserInfo(data);
       this.loadings = false;
+    },
+    getSeoLeaderName(seoLeaderId) {
+      if (!seoLeaderId) return "-";
+      const leader = this.seoLeaderList.find((l) => l.id === seoLeaderId);
+      return leader ? (leader.nickName || leader.userName || "-") : "-";
     },
     cancelEdit() {
       this.isEdit = false;
@@ -361,6 +396,7 @@ export default {
   mounted() {
     this.fetchData();
     this.RoleData();
+    this.SeoLeaderData();
   },
 };
 </script>

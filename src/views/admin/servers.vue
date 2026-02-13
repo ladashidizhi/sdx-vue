@@ -295,7 +295,7 @@ import {
   Transfer,
   TransferTwo,
 } from '@/api/super/index.js'
-import { getUserList } from '@/api/personal/index.js'
+import { getUserList, getSeoLeaderList } from '@/api/personal/index.js'
 import { GetHostList } from '@/api/hosts/index.js'
 import { postSearchDns } from '@/api/certificates/index.js'
 import UpgradeNode from '@/views/host/components/UpgradeNode.vue'
@@ -396,9 +396,26 @@ export default {
     },
     async changeGetStaffLs() {
       const response = await getUserList()
-      if (response.code === 0) {
-        this.StaffLs = response.data.list
+      if (response.code !== 0) return
+      let list = response.data.list || []
+      // 左上角选中的是「当前组长视角」：总管理员(admin) 看全部；选了 lds-admin/ok-admin/niu-admin 只显示该组长下属
+      const u = this.userStore.user || {}
+      const selectedAdmin = String(u?.user?.userName || u?.userName || u?.username || 'admin').toLowerCase()
+      const adminValues = ['admin', 'lds-admin', 'ok-admin', 'niu-admin']
+      const currentScope = adminValues.includes(selectedAdmin) ? selectedAdmin : 'admin'
+
+      let scopeLeaderId = 0
+      if (currentScope !== 'admin') {
+        const leaderRes = await getSeoLeaderList()
+        const leaders = (leaderRes?.code === 0 && Array.isArray(leaderRes?.data)) ? leaderRes.data : []
+        const leader = leaders.find((l) => String(l.userName || '').toLowerCase() === currentScope)
+        if (leader && leader.id) {
+          list = list.filter((u) => (u.seoLeaderId || 0) === leader.id)
+          scopeLeaderId = leader.id
+        }
       }
+      this.params.seo_leader_id = scopeLeaderId
+      this.StaffLs = list
     },
     async SearchQuery() {
       this.GetHostsList(this.params)
@@ -489,11 +506,11 @@ export default {
   beforeUnmount() {
     window.removeEventListener('resize', this.setComponentHeight)
   },
-  mounted() {
+  async mounted() {
     this.setComponentHeight()
     window.addEventListener('resize', this.setComponentHeight)
+    await this.changeGetStaffLs()
     this.GetHostsList(this.params)
-    this.changeGetStaffLs()
     this.GetHostList()
     this.GetDNSList()
   },
@@ -542,6 +559,7 @@ export default {
       total: 0,
       user_id: null,
       host_id: 1,
+      seo_leader_id: 0,
       key_name: '',
       host_type: '',
       page: 1,
