@@ -1,0 +1,31 @@
+/* border: 1px solid var(--app-stroke); */
+.arco-menu-selected-label,
+.arco-tabs-nav-ink {
+	display: none;
+}
+.arco-btn-size-medium {
+	font-size: 12px !important;
+}
+.arco-table-th, 
+.arco-table-td {
+    padding: 0 10px;
+}
+td.arco-table-td.arco-table-col-fixed-right.arco-table-col-fixed-right-first {
+    background: linear-gradient(180deg, var(--app-panel), var(--app-panel2));
+    box-shadow: var(--app-shadow);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+}
+.arco-table-layout-fixed .arco-table-element {
+    table-layout: initial;
+}
+.red-btn {
+	border-color: rgba(255, 77, 79, .40) !important;
+	background: linear-gradient(180deg, rgba(255, 77, 79, .26), rgba(255, 77, 79, .10)) !important;
+}
+.red-btn:hover {
+	border-color: darkred !important;
+	background: linear-gradient(180deg, rgb(255 7 10 / 60%), rgba(255, 77, 79, .10)) !important;
+}
+.arco-message-content {
+	color: var(--color-text-3) !important;
+}

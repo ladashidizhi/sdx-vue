@@ -27,20 +27,21 @@ export default {
   width: 99%;
   margin-left: 0px;
   transition-property: all;
-  background-color: white;
+  background-color: var(--color-menu-light-bg);
   border: none;
   margin-right: 8px;
   border-radius: 5px;
   .custom-actions {
-    color: black;
+    color: var(--color-text-2);
   }
   .custom-content {
-    color: black;
+    color: var(--color-text-2);
     display: flex;
     flex-direction: column;
     h2 {
       text-align: center;
       padding-top: 15px;
+      color: var(--color-text-2);
     }
   }
 }

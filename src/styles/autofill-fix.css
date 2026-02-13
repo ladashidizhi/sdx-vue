@@ -1,0 +1,43 @@
+/* Autofill Fix (Chrome/Edge) - global, strongest fallback
+   Purpose: Prevent saved-password autofill from turning inputs white on the login page.
+*/
+
+#login input,
+#login textarea,
+#login select {
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  caret-color: #fff;
+}
+
+#login input:-webkit-autofill,
+#login input:-webkit-autofill:hover,
+#login input:-webkit-autofill:focus,
+#login input:-webkit-autofill:active,
+#login textarea:-webkit-autofill,
+#login textarea:-webkit-autofill:hover,
+#login textarea:-webkit-autofill:focus,
+#login textarea:-webkit-autofill:active,
+#login select:-webkit-autofill,
+#login select:-webkit-autofill:hover,
+#login select:-webkit-autofill:focus,
+#login select:-webkit-autofill:active {
+  -webkit-text-fill-color: #fff !important;
+  caret-color: #fff !important;
+
+  /* The key: paint over Chrome's autofill background */
+  -webkit-box-shadow: 0 0 0 1000px rgb(65 26 125 / 96%) inset !important;
+  box-shadow: 0 0 0 1000px rgb(65 26 125 / 96%) inset !important;
+
+  /* Some Chrome versions also apply internal background-image; clip helps. */
+  background-clip: content-box !important;
+  border-radius: 12px !important;
+
+  transition: background-color 999999s ease-in-out 0s, color 999999s ease-in-out 0s;
+}
+
+/* Extra: remove the yellow tint some profiles still add */
+#login input:-webkit-autofill::first-line{
+  font-size: inherit;
+  font-family: inherit;
+}

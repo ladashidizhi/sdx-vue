@@ -2,51 +2,49 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite';
-import { ArcoResolver } from 'unplugin-vue-components/resolvers';
-import { vitePluginForArco } from '@arco-plugins/vite-vue'
-import monacoEditorPlugin from 'vite-plugin-monaco-editor';
+import Components from 'unplugin-vue-components/vite'
+import { ArcoResolver } from 'unplugin-vue-components/resolvers'
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  optimizeDeps: {
-    include: [
-      `monaco-editor/esm/vs/language/json/json.worker`,
-      `monaco-editor/esm/vs/language/css/css.worker`,
-      `monaco-editor/esm/vs/language/html/html.worker`,
-      `monaco-editor/esm/vs/language/typescript/ts.worker`,
-      `monaco-editor/esm/vs/editor/editor.worker`,
-    ],
-  },
-  transpileDependencies: true,
   plugins: [
     vue(),
-    monacoEditorPlugin.default({}),
+
+    // 自动导入（关闭 Arco 按需样式）
     AutoImport({
-      resolvers: [ArcoResolver()],
+      resolvers: [
+        ArcoResolver({
+          sideEffect: false,
+        }),
+      ],
     }),
+
+    // 组件自动注册（关闭 Arco 按需样式）
     Components({
       resolvers: [
         ArcoResolver({
-          sideEffect: true
-        })
-      ]
+          sideEffect: false,
+        }),
+      ],
     }),
-    vitePluginForArco({
-      style: 'css'
-    })
   ],
-  base: './',	//不加打包后白屏
+  base: '/',	//不加打包后白屏
   server: {
     host: '0.0.0.0',
-    open: true
+    port: 3000,
+    open: true,
+    proxy: {
+      '/api/v1': {
+        target: 'http://shandianxia.net:8080',
+        changeOrigin: true,
+      },
+    },
   },
+
   resolve: {
-    alias: [
-      {
-        find: '@',
-        replacement: resolve(__dirname, 'src')
-      }
-    ]
-  }
+    alias: {
+      '@': resolve(__dirname, 'src'),
+      '@arco-design/web-vue/es/color-picker/style/css.js':
+        '@arco-design/web-vue/dist/arco.css',
+    },
+  },
 })

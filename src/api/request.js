@@ -1,53 +1,71 @@
 import axios from 'axios'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { Message } from '@arco-design/web-vue';
+import { Message } from '@arco-design/web-vue'
+
+const NoProcessUlr = [
+  new RegExp(`^/hosts/dashboard/current`),
+  new RegExp(`^/software/state`),
+]
 
 const Request = axios.create({
-    baseURL: import.meta.env.VITE_APP_API_BASE_URL,
-    withCredentials: true,
-    // headers: { 'X-Requested-With': 'XMLHttpRequest' },
-    maxRedirects: 5
+  baseURL: import.meta.env.VITE_APP_API_BASE_URL,
+  withCredentials: true,
+  // headers: { 'X-Requested-With': 'XMLHttpRequest' },
+  maxRedirects: 5,
 })
 
-Request.interceptors.request.use((config)=>{
-    NProgress.start()
-    return config
-},(err)=>{
-    NProgress.done()
-    Message.error("请求失败，错误信息：" + err.message.toString())
-    return Promise.reject(err);
-})
-
-
-Request.interceptors.response.use((response)=>{
-    NProgress.done()
-    return response
-},(err)=>{
-    NProgress.done()
-    Message.error("请求失败，错误信息：" + err.message.toString())
-    return Promise.reject(err);
-})
-
-Request.interceptors.request.use((config)=>{
-    if(config.method.toUpperCase() !== 'get'){
-        const contentType = config.headers["content-type"] || ""
-        if(contentType.indexOf("application/x-www-form-urlencoded") > -1){
-            config.data = qs.stringify(config.data)
-        }
+Request.interceptors.request.use(
+  (config) => {
+    if (NoProcessUlr.findIndex((item) => item.test(config.url)) === -1) {
+      NProgress.start()
     }
     return config
+  },
+  (err) => {
+    NProgress.done()
+    Message.error('请求失败，错误信息：' + err.message.toString())
+    return Promise.reject(err)
+  }
+)
+
+Request.interceptors.response.use(
+  (response) => {
+    if (
+      NoProcessUlr.findIndex((item) => item.test(response.config.url)) === -1
+    ) {
+      NProgress.done()
+    }
+    return response
+  },
+  (err) => {
+    NProgress.done()
+    if (err.message.toString() === 'canceled') {
+      return Promise.reject(err)
+    }
+    Message.error('请求失败，错误信息：' + err.message.toString())
+    return Promise.reject(err)
+  }
+)
+
+Request.interceptors.request.use((config) => {
+  if (config.method.toUpperCase() !== 'get') {
+    const contentType = config.headers['content-type'] || ''
+    if (contentType.indexOf('application/x-www-form-urlencoded') > -1) {
+      config.data = qs.stringify(config.data)
+    }
+  }
+  return config
 })
 
 // SetResponseInter 设置请求拦截器
-function SetRequestInter(fn){
-    return Request.interceptors.request.use(fn)
+function SetRequestInter(fn) {
+  return Request.interceptors.request.use(fn)
 }
 
-
 // SetResponseInter 设置响应拦截器
-function SetResponseInter(fn){
-    return Request.interceptors.response.use(fn)
+function SetResponseInter(fn) {
+  return Request.interceptors.response.use(fn)
 }
 
 // RequestWithCancel 创建携带取消能力的请求
@@ -75,14 +93,14 @@ function SetResponseInter(fn){
             })
 */
 function GetCancelController(args) {
-    const controller = new AbortController()
-    args.signal = controller.signal
-    return controller
+  const controller = new AbortController()
+  args.signal = controller.signal
+  return controller
 }
 
 export {
-    Request, // 常规请求对象
-    GetCancelController, // 创建携带取消能力的请求
-    SetRequestInter,
-    SetResponseInter
+  Request, // 常规请求对象
+  GetCancelController, // 创建携带取消能力的请求
+  SetRequestInter,
+  SetResponseInter,
 }

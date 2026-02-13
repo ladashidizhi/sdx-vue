@@ -1,0 +1,1288 @@
+:root {
+	--bg1: #050822;
+	--bg2: #07143a;
+
+	--p1: #6d5bff;
+	--p2: #1fb6ff;
+	--p3: #a855f7;
+
+	--text: #eef3ff;
+	--muted: rgba(238, 243, 255, .74);
+
+	--glass: rgba(90, 110, 255, .14);
+	--glass2: rgba(40, 190, 255, .10);
+
+	--stroke: rgba(160, 170, 255, .22);
+	--shadow: 0 22px 70px rgba(0, 0, 0, .38);
+	--radius: 18px;
+	--radius2: 22px;
+}
+
+* {
+	box-sizing: border-box
+}
+#content {
+	overflow-y: auto;
+}
+.page {
+	margin: 0;
+	color: var(--text);
+	font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "PingFang SC", "Microsoft YaHei", Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+	background:
+		radial-gradient(1200px 700px at 10% 10%, rgba(109, 91, 255, .42), transparent 60%),
+		radial-gradient(900px 600px at 90% 20%, rgba(31, 182, 255, .32), transparent 55%),
+		radial-gradient(900px 700px at 70% 95%, rgba(168, 85, 247, .26), transparent 55%),
+		linear-gradient(180deg, var(--bg1), var(--bg2));
+	min-height: 100vh;
+	overflow-x: hidden;
+}
+
+.bg-orbs::before,
+.bg-orbs::after {
+	content: "";
+	position: fixed;
+	inset: -200px;
+	pointer-events: none;
+	background:
+		radial-gradient(circle at 20% 40%, rgba(109, 91, 255, .14), transparent 42%),
+		radial-gradient(circle at 70% 25%, rgba(31, 182, 255, .12), transparent 40%),
+		radial-gradient(circle at 85% 80%, rgba(168, 85, 247, .12), transparent 45%);
+	filter: blur(1px);
+	z-index: -2;
+}
+
+.grain {
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	opacity: .10;
+	z-index: -1;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+	background-size: 180px 180px;
+	mix-blend-mode: overlay;
+}
+
+.wrap {
+	width: min(1280px, 92vw);
+	margin: 22px auto 56px;
+}
+
+.topbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	margin-bottom: 18px;
+	margin-left: 18px;
+	width: calc(100% - 36px);
+}
+
+.is-smart-sticky {
+	margin-left: 0;
+}
+
+.brand {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 10px 12px;
+	border-radius: 999px;
+	box-shadow: var(--shadow);
+	backdrop-filter: blur(18px);
+	-webkit-backdrop-filter: blur(18px);
+}
+
+.logo {
+	text-align: center;
+	font-size: 25px;
+	width: 34px;
+	height: 34px;
+	border-radius: 12px;
+	background: radial-gradient(circle at 30% 30%, rgba(31, 182, 255, .95), rgba(109, 91, 255, .85) 55%, rgba(168, 85, 247, .45));
+	box-shadow: 0 10px 30px rgba(109, 91, 255, .25);
+	border: 1px solid rgba(255, 255, 255, .18);
+}
+
+.brand strong {
+	font-size: 22px;
+	letter-spacing: .6px;
+	font-weight: 850;
+	background: linear-gradient(90deg, #9f5bff, #6cf0ff, #9f5bff);
+	background-size: 200% 100%;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	animation: titleFlow-d0e06bca 4s linear infinite;
+	text-shadow: 0 0 18px rgba(159, 91, 255, 0.6);
+}
+
+.brand span {
+	display: block;
+	font-size: 12.5px;
+	color: var(--muted);
+	margin-top: 2px
+}
+
+/* ===== 管理员头部：账号切换（4个固定管理员账号） ===== */
+.brand-meta {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	min-width: 240px;
+}
+
+.brand-subrow {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+	margin-top: 2px;
+}
+
+.brand-user {
+	font-size: 12.5px;
+	color: var(--muted);
+	padding: 6px 10px;
+	border-radius: 999px;
+	border: 1px solid rgba(255, 255, 255, .14);
+	background: rgba(255, 255, 255, .06);
+	box-shadow: 0 10px 26px rgba(0, 0, 0, .20);
+}
+
+.admin-switch {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	border-radius: 999px;
+	border: 1px solid rgba(255, 255, 255, .14);
+	background: rgba(255, 255, 255, .05);
+	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(16px);
+}
+
+.admin-switch-label {
+	font-size: 12px;
+	color: rgba(238, 243, 255, .72);
+	padding-left: 6px;
+}
+
+.admin-select {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	border: 1px solid rgba(255, 255, 255, .14);
+	background: rgba(255, 255, 255, .06);
+	color: rgba(238, 243, 255, .92);
+	font-size: 12px;
+	padding: 7px 34px 7px 12px;
+	border-radius: 999px;
+	cursor: pointer;
+	outline: none;
+	box-shadow: 0 10px 26px rgba(0, 0, 0, .18);
+	transition: .18s ease;
+	position: relative;
+}
+
+.admin-select:focus {
+	box-shadow: 0 0 0 2px rgba(109, 91, 255, .25), 0 10px 26px rgba(0, 0, 0, .18);
+}
+
+/* 小箭头（使用背景方式，不影响 option） */
+.admin-select {
+	background-image: linear-gradient(45deg, transparent 50%, rgba(238,243,255,.78) 50%),
+		linear-gradient(135deg, rgba(238,243,255,.78) 50%, transparent 50%),
+		linear-gradient(to right, rgba(255,255,255,.10), rgba(255,255,255,.10));
+	background-position: calc(100% - 18px) 50%, calc(100% - 12px) 50%, calc(100% - 34px) 50%;
+	background-size: 6px 6px, 6px 6px, 1px 18px;
+	background-repeat: no-repeat;
+}
+
+
+.sw-btn {
+	appearance: none;
+	border: 1px solid transparent;
+	background: transparent;
+	color: rgba(238, 243, 255, .80);
+	font-size: 12px;
+	padding: 7px 10px;
+	border-radius: 999px;
+	cursor: pointer;
+	transition: .18s ease;
+	white-space: nowrap;
+}
+
+.sw-btn:hover {
+	color: var(--text);
+	background: rgba(255, 255, 255, .07);
+	border-color: rgba(255, 255, 255, .14);
+}
+
+.sw-btn.active {
+	color: #d2ff00;
+	background: linear-gradient(135deg, rgba(31, 182, 255, .98), rgba(109, 91, 255, .98), rgba(168, 85, 247, .92));
+	box-shadow: 0 16px 44px rgba(31, 182, 255, .16), 0 18px 54px rgba(109, 91, 255, .16);
+	border-color: rgba(255, 255, 255, .16);
+}
+
+.pillnav {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+}
+
+.pill {
+	display: flex;
+	gap: 6px;
+	padding: 8px;
+	border-radius: 999px;
+	box-shadow: var(--shadow);
+	backdrop-filter: blur(18px);
+	-webkit-backdrop-filter: blur(18px);
+}
+
+.pill a {
+	text-decoration: none;
+	color: var(--muted);
+	font-size: 15px;
+	padding: 10px 14px;
+	border-radius: 999px;
+	border: 1px solid transparent;
+	position: relative;
+	overflow: hidden;
+	transition: .18s ease;
+	white-space: nowrap;
+}
+
+.pill a:hover {
+	color: var(--text);
+	background: rgba(255, 255, 255, .07);
+	border-color: rgba(255, 255, 255, .14);
+}
+
+.pill a.active {
+	color: #d2ff00;
+	background: linear-gradient(135deg, rgba(31, 182, 255, .98), rgba(109, 91, 255, .98), rgba(168, 85, 247, .92));
+	box-shadow: 0 16px 44px rgba(31, 182, 255, .18), 0 18px 54px rgba(109, 91, 255, .18);
+}
+
+.actions {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.chip {
+	padding: 10px 12px;
+	border-radius: 999px;
+	color: var(--muted);
+	font-size: 12px;
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	box-shadow: 0 12px 34px rgba(0, 0, 0, .22);
+	backdrop-filter: blur(18px);
+	-webkit-backdrop-filter: blur(18px);
+}
+
+.dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: rgba(31, 182, 255, .95);
+	box-shadow: 0 0 18px rgba(31, 182, 255, .55);
+}
+
+.btn {
+	border: 1px solid rgba(255, 255, 255, .16);
+	background: linear-gradient(180deg, rgba(90, 110, 255, .18), rgba(30, 190, 255, .10));
+	color: var(--text);
+	border-radius: 999px;
+	padding: 10px 14px;
+	cursor: pointer;
+	font-size: 12px;
+	backdrop-filter: blur(18px);
+	-webkit-backdrop-filter: blur(18px);
+	transition: .18s ease;
+	box-shadow: 0 12px 34px rgba(0, 0, 0, .22);
+}
+
+.btn:hover {
+	transform: translateY(-1px);
+	border-color: rgba(31, 182, 255, .35);
+	box-shadow: 0 18px 44px rgba(31, 182, 255, .10), 0 18px 44px rgba(109, 91, 255, .10);
+}
+
+.main {
+	display: grid;
+	grid-template-columns: 1fr 1.25fr 1fr;
+	gap: 14px;
+	align-items: start;
+}
+
+.span-3 {
+	grid-column: 1 / -1;
+}
+
+.brand,
+.pill,
+.card {
+	background: linear-gradient(180deg, rgba(90, 110, 255, .18), rgba(30, 190, 255, .10));
+	border: 1px solid rgba(160, 170, 255, .24);
+}
+
+.card {
+	border-radius: var(--radius2);
+	box-shadow: var(--shadow);
+	backdrop-filter: blur(18px);
+	-webkit-backdrop-filter: blur(18px);
+	overflow: hidden;
+	position: relative;
+}
+
+.card::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background:
+		radial-gradient(700px 260px at 15% 10%, rgba(31, 182, 255, .18), transparent 58%),
+		radial-gradient(560px 300px at 85% 0%, rgba(109, 91, 255, .20), transparent 62%),
+		radial-gradient(520px 320px at 70% 110%, rgba(168, 85, 247, .14), transparent 60%);
+	pointer-events: none;
+	border-radius: 16px;
+}
+
+.card>* {
+	position: relative;
+}
+
+.card-hd {
+	padding: 16px 18px 12px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.card-hd .title {
+	font-size: 20px;
+	font-weight: 800;
+	color: rgba(238, 243, 255, .90);
+	letter-spacing: .4px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.badge-adm {
+	font-size: 11px;
+	color: rgba(238, 243, 255, .75);
+	padding: 6px 10px;
+	border-radius: 999px;
+	border: 1px solid rgba(255, 255, 255, .14);
+	background: rgba(255, 255, 255, .06);
+}
+
+.stat-grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 12px;
+	padding: 12px;
+}
+
+.stat {
+	border-radius: 18px;
+	border: 1px solid rgba(160, 170, 255, .22);
+	background: linear-gradient(180deg, rgba(90, 110, 255, .16), rgba(30, 190, 255, .08));
+	padding: 14px 14px 12px;
+	position: relative;
+	overflow: hidden;
+}
+
+.stat::after {
+	content: "";
+	position: absolute;
+	inset: -60px -120px auto auto;
+	width: 260px;
+	height: 160px;
+	background:
+		radial-gradient(circle at 30% 30%, rgba(31, 182, 255, .26), transparent 55%),
+		radial-gradient(circle at 65% 55%, rgba(109, 91, 255, .26), transparent 60%),
+		radial-gradient(circle at 75% 20%, rgba(168, 85, 247, .18), transparent 60%);
+	transform: rotate(12deg);
+	filter: blur(2px);
+	pointer-events: none;
+}
+
+.stat .k {
+	font-size: 16px;
+	color: rgba(238, 243, 255, .78);
+	margin-bottom: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.stat .v {
+	font-size: 28px;
+	font-weight: 850;
+	letter-spacing: .5px;
+}
+
+.stat .sub {
+	margin-top: 8px;
+	font-size: 12px;
+	color: rgba(238, 243, 255, .65);
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.spark {
+	width: 70px;
+	height: 10px;
+	border-radius: 999px;
+	background: linear-gradient(90deg, rgba(31, 182, 255, .75), rgba(109, 91, 255, .75), rgba(168, 85, 247, .35));
+	opacity: .9;
+}
+
+/* ✅ 方案 1：最小改动，只修“分布概览”不遮挡（避免最后一个被截） */
+.card.span-3 {
+	overflow: visible;
+}
+
+/* 分布概览这类大卡片不裁切 */
+.chart-card {
+	overflow: visible;
+}
+
+/* 图表卡片也不裁切 */
+.chart-wrap {
+	height: 220px;
+}
+
+/* legend 空间更足 */
+.chart-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(240px, 1fr));
+	gap: 12px;
+	padding: 12px;
+	align-items: stretch;
+}
+
+.chart-card {
+	border-radius: 18px;
+	border: 1px solid rgba(160, 170, 255, .22);
+	background: linear-gradient(180deg, rgba(90, 110, 255, .16), rgba(30, 190, 255, .08));
+	padding: 12px;
+	min-width: 0;
+}
+
+.chart-top {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 10px;
+	gap: 10px;
+}
+
+.chart-top .name {
+	font-size: 12px;
+	color: rgba(238, 243, 255, .85);
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.ring {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: linear-gradient(135deg, rgba(31, 182, 255, .95), rgba(109, 91, 255, .95), rgba(168, 85, 247, .85));
+	box-shadow: 0 0 18px rgba(31, 182, 255, .35);
+}
+
+.chart-wrap {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* 账户资源汇总表格 */
+.table-wrap {
+	padding: 0 0 14px;
+}
+.table-wrap-index {
+	padding: 0 12px 12px;
+}
+
+.arco-table-element,
+.tbl {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
+	overflow: hidden;
+	border-radius: 18px;
+	border: 1px solid rgba(160, 170, 255, .22);
+	background: linear-gradient(180deg, rgba(90, 110, 255, .14), rgba(30, 190, 255, .06));
+}
+
+.tbl thead th {
+	text-align: left;
+	font-size: 12px;
+	color: rgba(238, 243, 255, .86);
+	padding: 12px 12px;
+	border-bottom: 1px solid rgba(255, 255, 255, .10);
+	background: rgba(255, 255, 255, .04);
+	letter-spacing: .2px;
+}
+
+.tbl tbody td {
+	padding: 6px 12px;
+	font-size: 12px;
+	color: rgba(238, 243, 255, .84);
+	border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+
+.tbl tbody tr:nth-child(odd) td {
+	background: rgba(255, 255, 255, .03);
+}
+
+.tbl tbody tr:last-child td {
+	border-bottom: none;
+}
+
+.tbl .num {
+	color: rgba(238, 243, 255, .92);
+	font-variant-numeric: tabular-nums;
+}
+
+.tbl .pilltag {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 10px;
+	border-radius: 999px;
+	border: 1px solid rgba(255, 255, 255, .14);
+	background: rgba(255, 255, 255, .06);
+}
+
+/* ==============================
+   Arco <a-table> 统一成首页 tbl 风格
+   用法：外层包 .table-wrap，并给 a-table 加 class="tbl-arco"
+   ============================== */
+.table-wrap .tbl-arco,
+.table-wrap .tbl-arco .arco-table,
+.table-wrap .arco-table {
+	border-radius: 18px;
+	border: 1px solid rgba(160, 170, 255, .22);
+	background: linear-gradient(180deg, rgba(90, 110, 255, .14), rgba(30, 190, 255, .06));
+	box-shadow: none;
+	overflow: hidden;
+}
+
+/* 取消 Arco 默认分割线/背景，让它吃我们的 tbl 风格 */
+.table-wrap .tbl-arco .arco-table-container,
+.table-wrap .arco-table-container {
+	background: transparent;
+}
+
+.table-wrap .tbl-arco .arco-table-th,
+.table-wrap .arco-table-th {
+	background: rgba(255, 255, 255, .04) !important;
+	color: rgba(238, 243, 255, .86) !important;
+	font-size: 12px;
+	border-bottom: 1px solid rgba(255, 255, 255, .10) !important;
+}
+
+.table-wrap .tbl-arco .arco-table-td,
+.table-wrap .arco-table-td {
+	background: transparent !important;
+	color: rgba(238, 243, 255, .84) !important;
+	font-size: 12px;
+	border-bottom: 1px solid rgba(255, 255, 255, .08) !important;
+}
+
+/* 斑马纹（跟首页 tbl 一致） */
+.table-wrap .tbl-arco .arco-table-tbody .arco-table-tr:nth-child(odd) .arco-table-td,
+.table-wrap .arco-table-tbody .arco-table-tr:nth-child(odd) .arco-table-td {
+	background: rgba(255, 255, 255, .03) !important;
+}
+
+/* hover 高亮（更贴合毛玻璃） */
+.table-wrap .tbl-arco .arco-table-tbody .arco-table-tr:hover .arco-table-td,
+.table-wrap .arco-table-tbody .arco-table-tr:hover .arco-table-td {
+	background: rgba(31, 182, 255, .08) !important;
+}
+
+/* 去掉 Arco 的默认边框线（部分版本在 wrapper 上） */
+.table-wrap .tbl-arco .arco-table-border,
+.table-wrap .tbl-arco .arco-table-border::before,
+.table-wrap .tbl-arco .arco-table-border::after,
+.table-wrap .arco-table-border,
+.table-wrap .arco-table-border::before,
+.table-wrap .arco-table-border::after {
+	border: none !important;
+}
+
+/* 滚动条区域也保持一致 */
+.table-wrap .tbl-arco .arco-scrollbar-thumb,
+.table-wrap .arco-scrollbar-thumb {
+	background: rgba(160, 170, 255, .22) !important;
+}
+
+.list-grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 12px;
+	padding: 12px;
+}
+
+.list {
+	border-radius: 18px;
+	border: 1px solid rgba(160, 170, 255, .22);
+	background: linear-gradient(180deg, rgba(90, 110, 255, .16), rgba(30, 190, 255, .08));
+	overflow: hidden;
+}
+
+.list .list-hd {
+	padding: 12px 12px 10px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	border-bottom: 1px solid rgba(255, 255, 255, .10);
+}
+
+.list .list-hd strong {
+	font-size: 12px;
+	color: rgba(238, 243, 255, .88);
+	letter-spacing: .2px;
+}
+
+.more {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 10px;
+	border-radius: 999px;
+	border: 1px solid rgba(255, 255, 255, .14);
+	background: rgba(255, 255, 255, .06);
+	color: rgba(238, 243, 255, .80);
+	text-decoration: none;
+	font-size: 12px;
+	transition: .18s ease;
+	position: relative;
+	overflow: hidden;
+}
+
+.more:hover {
+	transform: translateY(-1px);
+	border-color: rgba(31, 182, 255, .35);
+	color: var(--text);
+	box-shadow: 0 14px 34px rgba(31, 182, 255, .10), 0 14px 34px rgba(109, 91, 255, .10);
+}
+
+.rows {
+	padding: 8px 10px 12px;
+}
+
+.row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	padding: 8px 8px;
+	border-radius: 12px;
+	color: rgba(238, 243, 255, .86);
+	font-size: 12px;
+}
+
+.row:nth-child(odd) {
+	background: rgba(255, 255, 255, .04);
+}
+
+.row .left {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-width: 0;
+}
+
+.rank {
+	width: 22px;
+	height: 22px;
+	border-radius: 9px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 11px;
+	color: rgba(238, 243, 255, .92);
+	border: 1px solid rgba(255, 255, 255, .14);
+	background: rgba(255, 255, 255, .06);
+	flex: 0 0 auto;
+}
+
+.name {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 220px;
+}
+
+.val {
+	font-variant-numeric: tabular-nums;
+	color: rgba(238, 243, 255, .78);
+	flex: 0 0 auto;
+}
+
+@media (max-width: 1100px) {
+	.main {
+		grid-template-columns: 1fr;
+	}
+
+	.stat-grid,
+	.list-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.pillnav {
+		display: none;
+	}
+
+	.chart-grid {
+		grid-template-columns: repeat(2, minmax(240px, 1fr));
+	}
+}
+
+@media (max-width: 640px) {
+
+	.stat-grid,
+	.list-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.chart-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.wrap {
+		width: min(980px, 94vw);
+	}
+}
+
+/* ========= 细节增强：图标 + Hover + 异常警报特效 ========= */
+
+/* 标题图标 */
+.title {
+	gap: 10px;
+}
+
+.title .ico {
+	width: 22px;
+	height: 22px;
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, .14);
+	background: linear-gradient(135deg, rgba(31, 182, 255, .26), rgba(109, 91, 255, .20));
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 12px 32px rgba(0, 0, 0, .18);
+	flex: 0 0 auto;
+}
+
+.title .ico svg {
+	width: 14px;
+	height: 14px;
+	stroke: rgba(238, 243, 255, .92);
+	stroke-width: 2;
+	fill: none;
+	opacity: .95;
+}
+
+/* 卡片/模块 hover（更有质感） */
+.card,
+.stat,
+.chart-card,
+.list {
+	transition: .22s ease;
+	transform: translateZ(0);
+}
+
+.card:hover {
+	transform: translateY(-2px);
+	border-color: rgba(31, 182, 255, .28);
+	box-shadow: var(--shadow), 0 0 0 1px rgba(31, 182, 255, .22), 0 18px 60px rgba(109, 91, 255, .18);
+}
+
+.stat:hover,
+.chart-card:hover,
+.list:hover {
+	transform: translateY(-2px);
+	border-color: rgba(31, 182, 255, .26);
+	box-shadow: 0 18px 56px rgba(0, 0, 0, .26), 0 18px 60px rgba(31, 182, 255, .10);
+}
+
+.row {
+	transition: .18s ease;
+}
+
+.row:hover {
+	background: rgba(31, 182, 255, .06);
+	transform: translateX(2px);
+}
+
+/* 按钮/更多：增加“扫光” */
+.btn,
+.more {
+	position: relative;
+	overflow: hidden;
+}
+
+.btn::after,
+.more::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, .18) 40%, transparent 65%);
+	transform: translateX(-120%);
+	transition: transform .55s ease;
+	pointer-events: none;
+	opacity: .35;
+}
+
+.btn:hover::after,
+.more:hover::after {
+	transform: translateX(120%);
+}
+
+/* 表格行 hover 更明显 */
+.tbl tbody tr:hover td {
+	background: rgba(31, 182, 255, .06);
+	border-bottom-color: rgba(31, 182, 255, .18);
+}
+
+/* 异常警报：顶部胶囊 + 文字发光 */
+.alarm-chip {
+	padding: 6px 12px;
+	border-radius: 999px;
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	backdrop-filter: blur(18px);
+	-webkit-backdrop-filter: blur(18px);
+	border: 1px solid rgba(255, 80, 120, .28);
+	background: linear-gradient(180deg, rgba(255, 80, 120, .16), rgba(109, 91, 255, .10));
+	box-shadow: 0 16px 50px rgba(255, 80, 120, .10), 0 20px 60px rgba(31, 182, 255, .08);
+	position: relative;
+	overflow: hidden;
+	transition: .22s ease;
+}
+
+.alarm-chip:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 18px 60px rgba(255, 80, 120, .14), 0 18px 60px rgba(31, 182, 255, .10);
+}
+
+.alarm-chip::before {
+	content: "";
+	position: absolute;
+	inset: -40%;
+	background: conic-gradient(from 90deg, rgba(255, 80, 120, .0), rgba(255, 80, 120, .20), rgba(31, 182, 255, .18), rgba(109, 91, 255, .0));
+	filter: blur(8px);
+	opacity: .65;
+	animation: alarmSpin 3.2s linear infinite;
+	pointer-events: none;
+}
+
+@keyframes alarmSpin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.alarm-dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: rgba(255, 80, 120, .95);
+	box-shadow: 0 0 20px rgba(255, 80, 120, .55);
+	animation: pulse 1.15s ease-in-out infinite;
+	position: relative;
+	z-index: 1;
+}
+
+@keyframes pulse {
+
+	0%,
+	100% {
+		transform: scale(1);
+		opacity: .95;
+	}
+
+	50% {
+		transform: scale(1.22);
+		opacity: 1;
+	}
+}
+
+.alarm-text {
+	position: relative;
+	z-index: 1;
+	font-weight: 900;
+	letter-spacing: .6px;
+	background: linear-gradient(90deg, rgb(173 227 26), rgb(238 66 9), rgb(211 231 15), rgb(66 147 17));
+	background-size: 220% 100%;
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	text-shadow: 0 0 18px rgba(255, 80, 120, .25);
+	animation: alarmShine 2.4s ease-in-out infinite;
+}
+
+@keyframes alarmShine {
+	0% {
+		background-position: 0% 50%;
+		filter: drop-shadow(0 0 0 rgba(255, 80, 120, .0));
+	}
+
+	50% {
+		background-position: 100% 50%;
+		filter: drop-shadow(0 0 10px rgba(255, 80, 120, .18));
+	}
+
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.alarm-count {
+	position: relative;
+	z-index: 1;
+	font-size: 14px;
+	color: rgb(234 255 0 / 88%);
+	padding: 6px 10px;
+	border-radius: 999px;
+	border: 1px solid rgba(255, 255, 255, .14);
+	background: rgba(255, 255, 255, .06);
+	font-variant-numeric: tabular-nums;
+}
+
+#alarmCount {
+	margin-right: auto;
+}
+
+/* 登出按钮（与刷新按钮区分） */
+.btn-logout {
+  border-color: rgba(255, 80, 120, 0.26);
+  background: linear-gradient(180deg, rgba(255, 80, 120, 0.16), rgba(109, 91, 255, 0.10));
+}
+.btn-logout:hover {
+  border-color: rgba(255, 80, 120, 0.38);
+  box-shadow: 0 18px 44px rgba(255, 80, 120, 0.12), 0 18px 44px rgba(109, 91, 255, 0.10);
+}
+
+.arco-divider-vertical {
+	border: 1px solid rgba(160, 170, 255, .22)!important;
+}
+.arco-tree-select-popup,
+.arco-drawer-header,
+.arco-drawer-footer,
+.arco-modal-header,
+.arco-modal-footer,
+.arco-picker-container, .arco-picker-range-container,
+.arco-picker-header,
+.arco-picker-container-shortcuts-placement-right .arco-picker-panel-wrapper, .arco-picker-range-container-shortcuts-placement-right .arco-picker-panel-wrapper, .arco-picker-container-shortcuts-placement-right .arco-picker-range-panel-wrapper, .arco-picker-range-container-shortcuts-placement-right .arco-picker-range-panel-wrapper {
+	border-color: rgba(160, 170, 255, .22)!important;
+}
+.arco-textarea-wrapper,
+.arco-input-wrapper:not(.arco-input-focus) .arco-input-icon-hover:hover::before,
+.arco-picker-cell-in-view:not(.arco-picker-cell-selected):not(.arco-picker-cell-range-start):not(.arco-picker-cell-range-end):not(.arco-picker-cell-disabled):not(.arco-picker-cell-week) .arco-picker-date-value:hover,
+.arco-picker,
+.arco-input-wrapper,
+.arco-select-dropdown,
+.arco-select-view-single,
+.arco-divider-horizontal {
+	border: 1px solid rgba(160, 170, 255, .22)!important;
+	background: linear-gradient(180deg, rgba(90, 110, 255, .14), rgba(30, 190, 255, .06))!important;
+}
+.arco-tree-select-popup,
+.arco-drawer,
+.arco-modal,
+.arco-popconfirm-popup-content,
+.arco-picker-header-icon,
+.arco-picker-cell-in-range .arco-picker-date,
+.arco-select-dropdown .arco-select-option {
+	background: radial-gradient(1200px 900px at 20% 10%, rgba(120, 140, 255, .25), transparent 60%), radial-gradient(1000px 700px at 80% 25%, rgba(90, 120, 255, .22), transparent 62%), linear-gradient(180deg, var(--bp-bg-0) 0%, var(--bp-bg-1) 45%, var(--bp-bg-2) 100%) !important;
+}
+.topbar,
+.arco-picker-focused .arco-picker-input-active input, .arco-picker-focused:hover .arco-picker-input-active input,
+.arco-picker-cell-disabled .arco-picker-date,
+.arco-tag-checked,
+.table-wrap .arco-table-element,
+.arco-select-view-single,
+.table-wrap .arco-table-header,
+.table-wrap .arco-table-body,
+.table-wrap .arco-table-th {
+    background: transparent !important;
+	border-radius: 0 !important;
+}
+.arco-table-hover:not(.arco-table-dragging) .arco-table-tr:not(.arco-table-tr-empty):not(.arco-table-tr-summary):hover .arco-table-td.arco-table-col-fixed-left::before,
+.arco-table-hover:not(.arco-table-dragging) .arco-table-tr:not(.arco-table-tr-empty):not(.arco-table-tr-summary):hover .arco-table-td.arco-table-col-fixed-left::before,
+.arco-table-hover:not(.arco-table-dragging) .arco-table-tr:not(.arco-table-tr-empty):not(.arco-table-tr-summary):hover .arco-table-td.arco-table-col-fixed-right::before,
+.arco-picker-container, .arco-picker-range-container,
+.arco-tabs-nav::before,
+.table-wrap .arco-table tr:nth-child(even) {
+	background: #45186f;
+}
+.topbar,
+.table-wrap .arco-table-element,
+.arco-table-border:not(.arco-table-border-cell) .arco-table-container {
+	border: none!important;
+}
+.arco-drawer-header .arco-drawer-title,
+.arco-tree-node-switcher,
+.arco-radio-label,
+.arco-form-item-label-col > .arco-form-item-label,
+.arco-modal-title,
+.arco-picker input,
+.arco-select-view-value,
+.arco-pagination-total,
+.arco-pagination-item,
+.table-wrap .arco-pagination-total {
+	color: var(--color-text-3);
+}
+.table-wrap .arco-link,
+.arco-tree-node,
+.arco-textarea-wrapper,
+.arco-modal-body,
+.arco-popconfirm-popup-content .arco-popconfirm-body,
+.arco-input-wrapper,
+.arco-input-wrapper .arco-input-clear-btn,
+.arco-picker-header-icon,
+.arco-btn-secondary, .arco-btn-secondary[type='button'], .arco-btn-secondary[type='submit'],
+.arco-picker-header-title,
+.arco-picker-cell-in-view .arco-picker-date-value,
+.arco-select-dropdown .arco-select-option {
+	color: var(--color-text-4)!important;
+}
+.arco-tag-checked {
+	color: var(--color-text-4);
+}
+.arco-picker-suffix .arco-icon,
+.arco-icon,
+.arco-picker-suffix .arco-icon {
+    stroke: rgb(127 148 179) !important;
+}
+.table-wrap .arco-table-th  {
+	font-size: 14px !important;
+}
+.arco-tabs-tab:hover,
+.arco-tabs-tab,
+.table-wrap .arco-tag {
+	color: var(--color-text-4);
+}
+.table-wrap .arco-tag-checked {
+	border-radius: 999px;
+	border: 1px solid rgba(255, 255, 255, .14);
+	background: rgba(255, 255, 255, .06);
+}
+.arco-tabs-nav-type-line .arco-tabs-tab:hover .arco-tabs-tab-title::before,
+.arco-pagination-item:hover,
+.arco-pagination-item-active, 
+.arco-pagination-item-active:hover, 
+.arco-table-hover .arco-table-tr-drag .arco-table-td.arco-table-col-fixed-left::before, .arco-table-hover:not(.arco-table-dragging) .arco-table-tr:not(.arco-table-tr-empty):not(.arco-table-tr-summary):hover .arco-table-td.arco-table-col-fixed-right::before,
+.arco-table-hover .arco-table-tr-drag .arco-table-td.arco-table-col-fixed-right::before, .table-wrap .arco-link:hover,
+.arco-pagination-item-active, .arco-pagination-item-active:hover,
+.arco-table-hover .arco-table-tr-drag .arco-table-td.arco-table-col-fixed-left::before,
+.arco-table-hover .arco-table-tr-drag .arco-table-td.arco-table-col-fixed-right::before,
+.table-wrap .arco-link:hover {
+    color: var(--color-text-4)!important;
+    background: linear-gradient(135deg, rgba(31, 182, 255, .98), rgba(109, 91, 255, .98), rgba(168, 85, 247, .92))!important;
+}
+.site_item .container {
+	padding: 16px 0!important;
+	height: 71vh!important;
+	max-height: none!important;
+	width: calc(100% - 0)!important;
+	margin: 0!important;
+	/* 让筛选区 + 表格区 + 分页 在固定区域内布局，表格超长时在区域内滚动 */
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	overflow: hidden;
+}
+
+/* ==============================
+   /admin/servers & /admin/domains 表格：每页 50 条时在区域内滚动
+   仅在 admin-night.css 内做样式控制，避免影响其它页面
+   ============================== */
+
+/* 表格容器占满剩余高度；不要让外层出现二次滚动 */
+.site_item .container .table-wrap {
+	flex: 1;
+	min-height: 0;
+	overflow: hidden;
+}
+
+/* 让表格自身撑满 table-wrap，避免 100% 高度不生效 */
+.site_item .container .table-wrap .tbl-arco,
+.site_item .container .table-wrap .tbl-arco .arco-table,
+.site_item .container .table-wrap .arco-table {
+	height: 100%;
+}
+
+/* Arco table 使用“头部固定 + body 滚动”的布局 */
+.site_item .container .table-wrap .arco-table-container {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.site_item .container .table-wrap .arco-table-header {
+	flex: 0 0 auto;
+}
+
+.site_item .container .table-wrap .arco-table-body {
+	flex: 1;
+	min-height: 0;
+	overflow-y: auto !important;
+	overflow-x: auto;
+}
+
+/* 统一滚动条观感（Arco scrollbar / 原生滚动条） */
+.site_item .container .table-wrap .arco-scrollbar-thumb {
+	background: rgba(160, 170, 255, .22) !important;
+}
+
+.site_item .container .table-wrap .arco-table-body::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+.site_item .container .table-wrap .arco-table-body::-webkit-scrollbar-thumb {
+	background: rgba(160, 170, 255, .26);
+	border-radius: 999px;
+	border: 2px solid rgba(0, 0, 0, 0);
+	background-clip: padding-box;
+}
+.site_item .container .table-wrap .arco-table-body::-webkit-scrollbar-thumb:hover {
+	background: rgba(160, 170, 255, .42);
+	border: 2px solid rgba(0, 0, 0, 0);
+	background-clip: padding-box;
+}
+.site_item .container .table-wrap .arco-table-body::-webkit-scrollbar-track {
+	background: rgba(255, 255, 255, .05);
+	border-radius: 999px;
+}
+
+/* ==============================
+   /admin/accounts：外框高度与其它页面保持一致
+   tabs 内容在固定区域内滚动
+   ============================== */
+
+/* a-tabs 在容器里撑满剩余高度 */
+.site_item .container .arco-tabs {
+	flex: 1;
+	min-height: 0;
+}
+
+/* 让 tabs 右侧内容区可滚动，而不是把外层撑长 */
+.site_item .container .arco-tabs-content {
+	height: 100%;
+	min-height: 0;
+	overflow: hidden;
+}
+
+.site_item .container .arco-tabs-content-list,
+.site_item .container .arco-tabs-pane {
+	height: 100%;
+	min-height: 0;
+}
+
+.site_item .container .arco-tabs-pane {
+	overflow: auto;
+	padding-right: 2px; /* 预留滚动条空间，避免遮挡内容 */
+}
+
+/* ==============================
+   三个页面（servers/domains/accounts）滚动条美化
+   只作用于 admin 的内容容器，避免影响其它页面
+   ============================== */
+
+/* Firefox */
+.site_item .container,
+.site_item .container .arco-table-body,
+.site_item .container .arco-tabs-pane {
+	scrollbar-width: thin;
+	scrollbar-color: rgba(160, 170, 255, .30) rgba(255, 255, 255, .06);
+}
+
+/* Webkit (Chrome/Safari/Edge) */
+.site_item .container::-webkit-scrollbar,
+.site_item .container .arco-table-body::-webkit-scrollbar,
+.site_item .container .arco-tabs-pane::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+.site_item .container::-webkit-scrollbar-thumb,
+.site_item .container .arco-table-body::-webkit-scrollbar-thumb,
+.site_item .container .arco-tabs-pane::-webkit-scrollbar-thumb {
+	background: rgba(160, 170, 255, .26);
+	border-radius: 999px;
+	border: 2px solid rgba(0, 0, 0, 0);
+	background-clip: padding-box;
+}
+
+.site_item .container::-webkit-scrollbar-thumb:hover,
+.site_item .container .arco-table-body::-webkit-scrollbar-thumb:hover,
+.site_item .container .arco-tabs-pane::-webkit-scrollbar-thumb:hover {
+	background: rgba(160, 170, 255, .42);
+	border: 2px solid rgba(0, 0, 0, 0);
+	background-clip: padding-box;
+}
+
+.site_item .container::-webkit-scrollbar-track,
+.site_item .container .arco-table-body::-webkit-scrollbar-track,
+.site_item .container .arco-tabs-pane::-webkit-scrollbar-track {
+	background: rgba(255, 255, 255, .05);
+	border-radius: 999px;
+}
+
+/* Arco 自带滚动条样式兜底 */
+.site_item .container .arco-scrollbar-thumb {
+	background: rgba(160, 170, 255, .26) !important;
+	border-radius: 999px;
+}
+
+.site_item .container .arco-scrollbar-thumb:hover {
+	background: rgba(160, 170, 255, .42) !important;
+}
+.chart-card {
+    position: relative;
+}
+.arco-tag-checkable.arco-tag-checked:hover,
+.arco-tag-blue {
+	border-color: #8282fa!important;
+}
+.arco-tabs-vertical .arco-tabs-content {
+    overflow-y: scroll;
+}
+.arco-tabs-nav-vertical .arco-tabs-nav-tab-list {
+    padding-top: 20px;
+}
+.arco-tabs-nav-vertical {
+	margin-right: 15px;
+}
+
+@media screen and (max-width: 1500px) {
+	.wrap {
+		margin: 0 auto 22px;
+		padding: 0 18px 30px;
+	}
+	.main {
+		padding: 0 14px 18px;
+	}
+	.site_item .container {
+		padding: 0 0 !important;
+	}
+}

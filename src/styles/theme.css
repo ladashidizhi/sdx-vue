@@ -1,0 +1,1205 @@
+/* =========================================
+   New Glass Theme (Purple Dark + Light)
+   Based on static index.html + server.html
+   Applies to Arco components + app layout
+   ========================================= */
+
+:root{
+  /* spacing/radius */
+  --r12:12px;
+  --r14:14px;
+  --r16:16px;
+  --r18:18px;
+  --r22:22px;
+  --hTop:64px;
+
+  --glass-blur: 14px;
+  --glass-sat: 140%;
+
+  /* fallback */
+  --app-accent: 138,91,255; /* purple */
+  --app-accent2: 56,189,248; /* cyan */
+  --app-good: 46,204,113;
+  --app-warn: 255,77,79;
+}
+
+/* -------------------------
+   DARK (default): body[arco-theme="dark"]
+   ------------------------- */
+body[arco-theme="dark"]{
+  /* background */
+  --app-bg0:#070512;
+  --app-bg1:#0a0620;
+  --app-bg2:#120a2c;
+
+  /* surfaces */
+  --app-panel: rgba(26,21,51,.78);
+  --app-panel2: rgba(20,17,37,.56);
+  --app-surface: rgba(255,255,255,.03);
+  --app-surface2: rgba(0,0,0,.18);
+
+  /* stroke/text */
+  --app-stroke: rgba(233,229,255,.10);
+  --app-stroke2: rgba(233,229,255,.16);
+  --app-stroke3: rgba(255,255,255,.10);
+
+  --app-text: #eef0ff;
+  --app-muted: rgba(233,229,255,.72);
+  --app-muted2: rgba(233,229,255,.48);
+
+  /* shadows */
+  --app-shadow: 0 16px 44px rgba(0,0,0,.48);
+  --app-shadow2: 0 26px 72px rgba(0,0,0,.58);
+
+  /* old vars mapping (used throughout the project) */
+  --color-menu-light-bg: rgba(26,21,51,.72);
+  --color-inner-bg-color: rgba(12,10,18,.86);
+  --color-theme-cardColor: rgba(26,21,51,.62);
+  --color-theme-TextColor: var(--app-text);
+  --color-theme-borderColor: rgba(180,140,255,.18);
+  --color-theme-background: rgba(12,10,18,.86);
+  --color-theme-textground: rgba(233,229,255,.72);
+
+  /* arco semantic overrides */
+  --color-bg-1: 12,10,18;
+  --color-bg-2: 14,12,26;
+  --color-bg-3: 20,16,38;
+  --color-bg-popup: rgba(20,17,37,.92);
+  --color-fill-2: rgba(255,255,255,.06);
+  --color-fill-3: rgba(255,255,255,.08);
+  --color-neutral-2: rgba(0,0,0,.18);
+  --color-neutral-3: rgba(255,255,255,.10);
+
+  --color-text-1: var(--app-text);
+  --color-text-2: rgba(233,229,255,.72);
+  --color-text-3: rgba(233,229,255,.52);
+
+  --shadow-special: 0 18px 38px rgba(138,91,255,.28);
+
+  /* controls */
+  --ctl-bg: rgba(255,255,255,.04);
+  --ctl-bg2: rgba(0,0,0,.18);
+  --ctl-stroke: rgba(233,229,255,.12);
+  --ctl-stroke2: rgba(180,140,255,.20);
+  --ctl-shadow: 0 12px 22px rgba(0,0,0,.24);
+
+  /* selection */
+  --sel-bg: rgba(138,91,255,.26);
+  --sel-bg2: rgba(56,189,248,.14);
+  --sel-stroke: rgba(180,140,255,.30);
+  --sel-glow: 0 0 0 1px rgba(180,140,255,.20),
+              0 18px 42px rgba(138,91,255,.35);
+
+  color-scheme: dark;
+}
+
+/* -------------------------
+   LIGHT: body[arco-theme="light"]
+   ------------------------- */
+body[arco-theme="light"]{
+  --app-bg0:#f6f8ff;
+  --app-bg1:#eef3ff;
+  --app-bg2:#e9f0ff;
+
+  --app-panel: rgba(255,255,255,.86);
+  --app-panel2: rgba(255,255,255,.66);
+  --app-surface: rgba(15,23,42,.03);
+  --app-surface2: rgba(255,255,255,.80);
+
+  --app-stroke: rgba(15,23,42,.10);
+  --app-stroke2: rgba(15,23,42,.16);
+  --app-stroke3: rgba(15,23,42,.10);
+
+  --app-text: #0f172a;
+  --app-muted: rgba(15,23,42,.68);
+  --app-muted2: rgba(15,23,42,.48);
+
+  --app-shadow: 0 18px 44px rgba(15,23,42,.10);
+  --app-shadow2: 0 26px 72px rgba(15,23,42,.14);
+
+  /* old vars mapping */
+  --color-menu-light-bg: rgba(255,255,255,.80);
+  --color-inner-bg-color: rgba(255,255,255,.86);
+  --color-theme-cardColor: rgba(255,255,255,.90);
+  --color-theme-TextColor: var(--app-text);
+  --color-theme-borderColor: rgba(15,23,42,.10);
+  --color-theme-background: rgba(255,255,255,.86);
+  --color-theme-textground: rgba(15,23,42,.64);
+
+  --color-bg-popup: rgba(255,255,255,.95);
+  --color-neutral-2: rgba(15,23,42,.08);
+  --color-neutral-3: rgba(15,23,42,.10);
+
+  --ctl-bg: rgba(255,255,255,.80);
+  --ctl-bg2: rgba(255,255,255,.85);
+  --ctl-stroke: rgba(15,23,42,.12);
+  --ctl-stroke2: rgba(59,130,246,.22);
+  --ctl-shadow: 0 12px 22px rgba(15,23,42,.10);
+
+  --sel-bg: rgba(59,130,246,.14);
+  --sel-bg2: rgba(14,165,233,.08);
+  --sel-stroke: rgba(59,130,246,.22);
+  --sel-glow: 0 0 0 1px rgba(59,130,246,.10),
+              0 18px 42px rgba(59,130,246,.12);
+
+  color-scheme: light;
+}
+
+/* ------------
+   Base background
+   ------------ */
+html, body, #content{
+  height:100%;
+}
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "PingFang SC","Microsoft YaHei", sans-serif;
+  color: var(--app-text);
+  background:
+    radial-gradient(1200px 720px at 18% 6%, rgba(var(--app-accent2), .10), transparent 60%),
+    radial-gradient(1000px 680px at 82% 20%, rgba(var(--app-accent), .10), transparent 58%),
+    radial-gradient(900px 600px at 60% 92%, rgba(59,130,246,.08), transparent 55%),
+    linear-gradient(180deg, var(--app-bg0), var(--app-bg1) 35%, var(--app-bg2));
+  overflow:hidden;
+}
+
+/* subtle grain */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(255,255,255,.05), transparent 35%),
+    radial-gradient(circle at 90% 25%, rgba(255,255,255,.04), transparent 35%);
+  pointer-events:none;
+  opacity: .65;
+}
+
+/* ------------
+   Glass container helpers
+   ------------ */
+.glass{
+  border:1px solid var(--app-stroke);
+  background: linear-gradient(180deg, var(--app-panel), var(--app-panel2));
+  box-shadow: var(--app-shadow);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+}
+.glass-soft{
+  border:1px solid var(--app-stroke);
+  background: var(--app-surface);
+  backdrop-filter: blur(calc(var(--glass-blur) - 2px)) saturate(var(--glass-sat));
+}
+
+/* ------------
+   Arco global overrides
+   ------------ */
+
+/* make common containers transparent so our backgrounds show through */
+.arco-layout,
+.arco-layout-content,
+.arco-layout-sider{
+  background: transparent !important;
+}
+
+/* Card / panel */
+.arco-card,
+.arco-drawer,
+.arco-modal,
+.arco-popover-content,
+.arco-dropdown-list,
+.arco-notification,
+.arco-message{
+  border:1px solid var(--app-stroke) !important;
+  background: linear-gradient(180deg, var(--app-panel), var(--app-panel2)) !important;
+  box-shadow: var(--app-shadow) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat)) !important;
+}
+
+.arco-card{
+  border-radius: var(--r18) !important;
+  overflow:hidden;
+  position:relative;
+}
+.arco-card::before{
+  content:"";
+  position:absolute;
+  inset:-2px -2px auto -2px;
+  height: 120px;
+  background: radial-gradient(520px 200px at 24% 20%, rgba(var(--app-accent), .18), transparent 60%);
+  pointer-events:none;
+  opacity: .9;
+}
+
+/* Table */
+.arco-table-th,
+.arco-table-td{
+  border-color: var(--app-stroke) !important;
+}
+.arco-table thead .arco-table-th{
+  background: rgba(255,255,255,.03) !important;
+}
+body[arco-theme="light"] .arco-table thead .arco-table-th{
+  background: rgba(15,23,42,.03) !important;
+}
+
+/* Inputs */
+.arco-input-wrapper,
+.arco-textarea-wrapper,
+.arco-select-view,
+.arco-picker,
+.arco-input-number{
+  border-radius: var(--r14) !important;
+  border: 1px solid var(--ctl-stroke) !important;
+  background: var(--ctl-bg2) !important;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.08) !important;
+}
+body[arco-theme="light"] .arco-input-wrapper,
+body[arco-theme="light"] .arco-textarea-wrapper,
+body[arco-theme="light"] .arco-select-view,
+body[arco-theme="light"] .arco-picker,
+body[arco-theme="light"] .arco-input-number{
+  box-shadow: inset 0 0 0 1px rgba(15,23,42,.04) !important;
+}
+.arco-input-wrapper:hover,
+.arco-textarea-wrapper:hover,
+.arco-select-view:hover,
+.arco-picker:hover{
+  border-color: var(--ctl-stroke2) !important;
+}
+.arco-input-wrapper-focus,
+.arco-textarea-wrapper-focus,
+.arco-select-view-focus{
+  border-color: rgba(var(--app-accent), .55) !important;
+  box-shadow: 0 0 0 3px rgba(var(--app-accent), .12) !important;
+}
+
+/* Buttons */
+.arco-btn{
+    border-color: rgba(138, 91, 255, .46);
+    background: linear-gradient(180deg, rgba(138, 91, 255, .34), rgba(138, 91, 255, .14));
+    box-shadow: 0 18px 38px rgba(138, 91, 255, .18);
+	border-radius: 12px;
+}
+.arco-table-td-content .arco-space-align-center {
+  border-radius: var(--r14) !important;
+}
+.arco-btn:hover{
+  filter: brightness(1.06) saturate(1.05);
+}
+.arco-btn.arco-btn-primary{
+    border-color: rgba(138, 91, 255, .46);
+    background: linear-gradient(180deg, rgba(138, 91, 255, .34), rgba(138, 91, 255, .14));
+    box-shadow: 0 18px 38px rgba(138, 91, 255, .18);
+}
+.arco-btn.arco-btn-secondary .arco-btn-secondary.arco-btn-status-danger{
+	color: rgb(var(--danger-6));
+}
+
+/* Tabs (for top nav pill style) */
+.arco-tabs-nav{
+
+}
+body[arco-theme="light"] .arco-tabs-nav{
+  background: rgba(255,255,255,.75) !important;
+}
+.arco-tabs-tab{
+  border-radius: 999px !important;
+  padding: 8px 12px !important;
+}
+.arco-tabs-tab-active{
+  border: 1px solid var(--sel-stroke) !important;
+  background: linear-gradient(180deg, var(--sel-bg), var(--sel-bg2)) !important;
+  box-shadow: var(--sel-glow) !important;
+}
+
+/* ------------------------
+   Arco Menu: "screenshot style"
+   Capsule + icon badge + left glow bar
+   ------------------------ */
+.arco-menu{
+  border: 0 !important;
+  background: transparent !important;
+}
+
+/* vertical container glass */
+.arco-menu-vertical{
+  padding: 0 10px 12px 10px;
+  background: transparent !important;
+}
+.arco-menu-collapsed,
+.arco-menu-horizontal .arco-menu-inner,
+.arco-menu-vertical .arco-menu-inner{
+  padding: 0 !important;
+  transition: all 0.3s ease-in-out;
+}
+
+
+/* item capsule */
+.arco-menu-vertical .arco-menu-item{
+  position: relative !important;
+  margin: 10px 0 !important;
+  padding: 8px 14px !important;
+  height: auto !important;
+  line-height: 20px !important;
+  border-radius: var(--r16) !important;
+  border: 1px solid transparent !important;
+  color: var(--app-muted) !important;
+  background: rgba(255,255,255,.03) !important;
+  transition: transform .15s ease, filter .15s ease, box-shadow .15s ease, background .15s ease !important;
+}
+
+.arco-menu-collapsed .arco-menu-item {
+	padding: 8px 9px !important;
+}
+body[arco-theme="light"] .arco-menu-vertical .arco-menu-item{
+  background: rgba(15,23,42,.03) !important;
+}
+
+.arco-menu-vertical .arco-menu-item:hover{
+  transform: translateY(-1px);
+  filter: saturate(1.08) brightness(1.04);
+}
+
+/* icon badge */
+.arco-menu-vertical .arco-menu-item .arco-menu-icon{
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 14px !important;
+  display: inline-grid !important;
+  place-items: center !important;
+  border: 1px solid var(--app-stroke) !important;
+  background: rgba(0,0,0,.18) !important;
+  box-shadow: 0 14px 28px rgba(0,0,0,.18) !important;
+  margin-right: 12px !important;
+}
+body[arco-theme="light"] .arco-menu-vertical .arco-menu-item .arco-menu-icon{
+  background: rgba(15,23,42,.04) !important;
+  box-shadow: 0 14px 28px rgba(15,23,42,.08) !important;
+}
+
+/* selected item */
+.arco-menu-vertical .arco-menu-item:hover,
+.arco-menu-vertical .arco-menu-item.arco-menu-selected{
+  color: var(--app-text) !important;
+  border-color: rgba(var(--app-accent), .40) !important;
+  background: linear-gradient(180deg, rgba(var(--app-accent), .38), rgba(var(--app-accent), .16)) !important;
+  box-shadow: var(--sel-glow) !important;
+  filter: saturate(1.18) brightness(1.10);
+}
+
+/* selected icon badge brighter */
+.arco-menu-vertical .arco-menu-item.arco-menu-selected .arco-menu-icon{
+  border-color: rgba(var(--app-accent), .42) !important;
+  background: radial-gradient(circle at 30% 30%, rgba(var(--app-accent), .28), rgba(90,43,255,.12)) !important;
+  box-shadow: 0 14px 28px rgba(var(--app-accent), .18) !important;
+  color: rgba(233,229,255,.92) !important;
+}
+
+/* collapse button */
+.arco-menu-collapse-button{
+  border-top: 1px solid var(--app-stroke) !important;
+  background: transparent !important;
+}
+
+/* horizontal menu tabs: pill */
+.arco-menu-horizontal{
+  border-bottom: 0 !important;
+  margin-left: 23px;
+  padding: 6px !important;
+  border-radius: 999px !important;
+  border: 1px solid var(--app-stroke) !important;
+  background: rgba(255,255,255,.04) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat)) !important;
+}
+body[arco-theme="light"] .arco-menu-horizontal{
+  background: rgba(255,255,255,.75) !important;
+}
+.arco-menu-horizontal .arco-menu-item{
+  border-radius: 999px !important;
+  padding: 0 12px !important;
+  margin: 0 2px !important;
+  border: 1px solid transparent !important;
+}
+.arco-menu-horizontal .arco-menu-item.arco-menu-selected{
+  border-color: var(--sel-stroke) !important;
+  background: linear-gradient(180deg, var(--sel-bg), var(--sel-bg2)) !important;
+  box-shadow: var(--sel-glow) !important;
+  color: var(--app-text) !important;
+}
+
+/* Scrollbar */
+*::-webkit-scrollbar{ width:10px; height:10px; }
+*::-webkit-scrollbar-thumb{
+  background: rgba(var(--app-accent), .18);
+  border: 2px solid rgba(0,0,0,.20);
+  border-radius: 999px;
+}
+body[arco-theme="light"] *::-webkit-scrollbar-thumb{
+  background: rgba(59,130,246,.18);
+  border: 2px solid rgba(255,255,255,.70);
+}
+*::-webkit-scrollbar-track{ background: rgba(0,0,0,.10); }
+body[arco-theme="light"] *::-webkit-scrollbar-track{ background: rgba(0,0,0,.05); }
+
+
+
+/* =========================================
+   Panel header (match design screenshot)
+   ========================================= */
+
+.panel{
+  border-radius: var(--r18);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Header integrated into panel (same surface as body) */
+.panel-head{
+  position: relative;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 15px 15px 14px;
+  margin: 0;
+  border-bottom: 1px solid var(--app-stroke);
+  background: transparent;
+}
+.panel::before {
+    content: "";
+    position: absolute;
+    inset: -2px -2px auto -2px;
+    height: 120px;
+    background: radial-gradient(520px 200px at 25% 20%, rgba(180, 124, 255, .20), transparent 60%);
+    pointer-events: none;
+}
+
+
+/* subtle divider line to connect header + content like design */
+.panel-head::after{
+  content:'';
+  position:absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    rgba(255,255,255,.02),
+    color-mix(in srgb, var(--app-p2) 20%, transparent 80%),
+    rgba(255,255,255,.02)
+  );
+  opacity: .85;
+}
+
+/* When a table is first child in body, reduce top padding a bit */
+.panel-body > .arco-table-wrapper:first-child,
+.panel-body > .arco-table:first-child{
+  margin-top: 2px;
+}
+.panel-title{
+
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  min-width: 0;
+}
+.panel-title-text{
+  font-size: 18px;
+  font-weight: 850;
+  letter-spacing: .2px;
+  color: var(--app-text);
+  white-space: nowrap;
+}
+.panel-badge{
+  height: 26px;
+  padding: 0 10px;
+  display:inline-flex;
+  align-items:center;
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--app-muted);
+  border: 1px solid color-mix(in srgb, var(--app-stroke) 70%, transparent 30%);
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.05) inset,
+    0 0 18px rgba(var(--app-accent2), .08);
+}
+
+.panel-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap: 10px;
+  min-width: 0;
+}
+.panel-actions-space{
+  width: 100%;
+  display:flex !important;
+  justify-content:flex-end !important;
+  gap: 10px !important;
+}
+
+/* Tabs header inside right panel (closer to design) */
+.clone_class .arco-tabs-nav-tab,
+.site-right .arco-tabs-nav,
+.site-right-min .arco-tabs-nav{
+  /* margin: 10px 10px 12px !important; */
+  padding: 10px 12px !important;
+  border-radius: 18px 18px 0 0;
+  border: 1px solid var(--app-stroke) !important;
+  background:
+    radial-gradient(520px 160px at 20% 0%, rgba(var(--app-accent), .14), transparent 55%),
+    linear-gradient(180deg, color-mix(in srgb, var(--app-panel2) 78%, transparent 22%), color-mix(in srgb, var(--app-panel) 74%, transparent 26%)) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  box-shadow:
+    0 12px 28px rgba(0,0,0,.32),
+    0 0 0 1px rgba(255,255,255,.06) inset;
+}
+.site-right .arco-tabs-tab,
+.site-right-min .arco-tabs-tab{
+  border-radius: var(--r14) !important;
+  padding: 8px 12px !important;
+  margin-right: 6px !important;
+}
+.site-right .arco-tabs-tab-active,
+.site-right-min .arco-tabs-tab-active{
+  background:
+    radial-gradient(120% 120% at 20% 0%, rgba(255,255,255,.10), transparent 45%),
+    linear-gradient(180deg, rgba(var(--app-accent2), .18), rgba(var(--app-accent), .10)) !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.08) inset,
+    0 0 28px rgba(var(--app-accent2), .18);
+}
+.site-right .arco-tabs-ink,
+.site-right-min .arco-tabs-ink{
+  height: 2px !important;
+  background: linear-gradient(90deg, rgba(var(--app-accent2), .0), rgba(var(--app-accent2), .85), rgba(var(--app-accent2), .0)) !important;
+  border-radius: 999px !important;
+}
+
+
+
+/* Panel tabs integrated header (no separate bar) */
+.panel > .arco-tabs{
+  height: 100%;
+}
+.panel > .arco-tabs .arco-tabs-nav{
+  background: transparent !important;
+  border: none !important;
+  margin: 0 !important;
+  padding: 8px 18px 8px 0 !important;
+  position: relative;
+}
+.panel > .arco-tabs .arco-tabs-nav::after{
+  content:'';
+  position:absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    rgba(255,255,255,.02),
+    color-mix(in srgb, var(--app-p2) 18%, transparent 82%),
+    rgba(255,255,255,.02)
+  );
+  opacity: .85;
+}
+.panel > .arco-tabs .arco-tabs-nav::before{
+  content:'';
+  position:absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  pointer-events:none;
+  background:
+    radial-gradient(900px 240px at 22% 0%, rgba(var(--app-accent), .12), transparent 55%),
+    linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
+  opacity: .75;
+}
+
+/* Tab items spacing like design */
+.panel > .arco-tabs .arco-tabs-nav-tab{
+  gap: 14px;
+}
+.panel > .arco-tabs .arco-tabs-tab{
+  padding: 8px 12px !important;
+  border-radius: 14px !important;
+  color: var(--app-muted) !important;
+}
+.panel > .arco-tabs .arco-tabs-tab:hover,
+.panel > .arco-tabs .arco-tabs-tab-active{
+  color: var(--app-text) !important;
+  background:
+    linear-gradient(180deg, rgba(var(--app-accent), .22), rgba(var(--app-accent), .08)) !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.06) inset,
+    0 0 22px color-mix(in srgb, var(--app-p2) 22%, transparent 78%) !important;
+}
+
+/* Content padding unified */
+.panel > .arco-tabs .arco-tabs-content{
+  padding: 12px 18px 18px !important;
+}
+
+
+
+/* =========================
+   Domain list table (站点管理-域名列表) - match design mock
+   ========================= */
+.domain-table{
+  --row-bg: linear-gradient(180deg,
+      color-mix(in srgb, var(--app-card2) 78%, transparent 22%),
+      color-mix(in srgb, var(--app-card) 70%, transparent 30%)
+  );
+  --row-bg-hover: linear-gradient(180deg,
+      color-mix(in srgb, var(--app-panel2) 72%, transparent 28%),
+      color-mix(in srgb, var(--app-panel) 66%, transparent 34%)
+  );
+}
+
+/* make table look like separated row-cards */
+.domain-table .arco-table-container,
+.domain-table .arco-table-body,
+.domain-table .arco-table-scroll,
+.domain-table .arco-table-header{
+  background: transparent !important;
+}
+.domain-table table{
+  border-collapse: separate !important;
+}
+
+/* header bar (inside the same panel) */
+.domain-table .arco-table-th{
+  background: transparent !important;
+  border: none !important;
+  padding: 0 14px !important;
+  color: color-mix(in srgb, var(--app-muted) 78%, white 22%) !important;
+  font-weight: 600 !important;
+}
+.domain-table .arco-table-thead > tr{
+  background: transparent !important;
+}
+.domain-table .arco-table-thead > tr > th:first-child{
+  /* padding-left: 18px !important; */
+}
+.domain-table .arco-table-thead{
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  backdrop-filter: blur(10px);
+}
+
+/* row cells become one pill-card */
+.domain-table .arco-table-tr .arco-table-td{
+  background: var(--row-bg) !important;
+  padding: 0 !important;
+  border: none !important;
+  color: var(--app-text) !important;
+}
+.arco-table .arco-table-cell {
+	padding: 9px 0 !important;
+}
+.domain-table .arco-table-tr .arco-table-td:first-child{
+	border-radius: 16px 0 0 16px!important;
+}
+.domain-table .arco-table-tr .arco-table-td:last-child{
+ border-radius: 0 16px 16px 0!important;
+}
+.domain-table .arco-table-tr:hover {
+    color: var(--app-text) !important;
+    background: linear-gradient(180deg, rgba(var(--app-accent), .38), rgba(var(--app-accent), .16)) !important;
+    box-shadow: var(--sel-stroke) !important;
+    filter: saturate(1.18) brightness(1.10);
+}
+.domain-table .arco-table-tr:hover .arco-table-td{
+
+}
+.domain-table .arco-table-tr:hover .arco-table-td:first-child{
+  box-shadow: 0 16px 36px rgba(0,0,0,.34), 0 0 26px rgba(124,58,237,.12) !important;
+}
+.domain-table .arco-table-tr:hover .arco-table-td:first-child .arco-table .arco-table-cell {
+    padding: 0;
+}
+
+/* checkbox column */
+.domain-table .row-check{
+  transform: scale(1.05);
+}
+.domain-table .arco-checkbox-icon{
+  border-radius: 6px !important;
+}
+
+/* domain pill button */
+.domain-table .domain-pill-btn{
+  border-radius: 14px !important;
+  height: 30px !important;
+  padding: 0 12px !important;
+  font-weight: 700 !important;
+  color: #1a1a1a !important;
+  background: linear-gradient(180deg, #ffef8a, #e7c85a) !important;
+  border: 1px solid rgba(255,255,255,.30) !important;
+  box-shadow: 0 10px 20px rgba(0,0,0,.22), 0 0 0 1px rgba(0,0,0,.18) inset !important;
+}
+.domain-table .domain-pill-btn:hover{
+  filter: brightness(1.05);
+  box-shadow: 0 12px 24px rgba(0,0,0,.28), 0 0 28px rgba(255,240,138,.18) !important;
+}
+
+/* days pill */
+.domain-table .days-pill{
+  height: 22px !important;
+  line-height: 22px !important;
+  border-radius: 999px !important;
+  padding: 0 10px !important;
+  background: rgba(255,255,255,.06) !important;
+  border: 1px solid rgba(255,255,255,.08) !important;
+  color: color-mix(in srgb, var(--app-muted) 80%, white 20%) !important;
+}
+
+/* status pills + icon badges */
+.domain-table .status-pill{
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+.domain-table .status-pill .arco-space{
+  gap: 8px !important;
+}
+.domain-table .ali-icon{
+  width: 28px !important;
+  height: 28px !important;
+  padding: 6px !important;
+  border-radius: 10px !important;
+  background:
+    radial-gradient(120% 120% at 30% 20%, rgba(255,255,255,.14), transparent 50%),
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--app-panel2) 72%, transparent 28%),
+      color-mix(in srgb, var(--app-panel) 62%, transparent 38%)
+    ) !important;
+  border: 1px solid color-mix(in srgb, var(--app-stroke) 70%, transparent 30%) !important;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.06) inset, 0 0 20px rgba(59,130,246,.08) !important;
+}
+
+/* operation icons */
+.domain-table .op-icon{
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 12px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background:
+    radial-gradient(120% 120% at 30% 20%, rgba(255,255,255,.14), transparent 50%),
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--app-panel2) 72%, transparent 28%),
+      color-mix(in srgb, var(--app-panel) 62%, transparent 38%)
+    ) !important;
+  border: 1px solid color-mix(in srgb, var(--app-stroke) 70%, transparent 30%) !important;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.06) inset, 0 0 18px rgba(124,58,237,.10) !important;
+  padding: 0 !important;
+}
+.domain-table .op-icon.op-del{
+  background:
+    radial-gradient(120% 120% at 30% 20%, rgba(255,255,255,.12), transparent 50%),
+    linear-gradient(180deg,
+      rgba(255,90,90,.14),
+      rgba(255,50,50,.08)
+    ) !important;
+  border-color: rgba(255,90,90,.22) !important;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.06) inset, 0 0 22px rgba(255,80,80,.10) !important;
+}
+
+
+/* =========================================================
+   Domain list row selected state (option 2)
+   - Stronger purple inner glow
+   - Left neon strip (like sider selected)
+   - Works for multiple Arco selection classnames
+   ========================================================= */
+
+/* Arco selection classnames: cover common variants */
+:where(.arco-table) :is(
+  .arco-table-tr.arco-table-tr-selected,
+  .arco-table-tr.arco-table-tr-checked,
+  .arco-table-tr.arco-table-row-selected,
+  .arco-table-tr.arco-table-row-checked
+) > .arco-table-td{
+  position: relative;
+}
+
+/* Make selected row "brighter glass" */
+:where(.arco-table) :is(
+  .arco-table-tr.arco-table-tr-selected,
+  .arco-table-tr.arco-table-tr-checked,
+  .arco-table-tr.arco-table-row-selected,
+  .arco-table-tr.arco-table-row-checked
+) > .arco-table-td{
+  background:
+    radial-gradient(120% 120% at 20% 0%, rgba(255,255,255,.10), transparent 45%),
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--app-p2) 16%, var(--app-card2) 84%),
+      color-mix(in srgb, var(--app-p) 10%, var(--app-card) 90%)
+    ) !important;
+
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.06) inset,
+    0 0 18px rgba(124,58,237,.18) inset,
+    0 0 34px rgba(124,58,237,.18) !important;
+}
+
+/* Left neon strip - attach to the first visible cell */
+:where(.arco-table) :is(
+  .arco-table-tr.arco-table-tr-selected,
+  .arco-table-tr.arco-table-tr-checked,
+  .arco-table-tr.arco-table-row-selected {
+  content:'';
+  position:absolute;
+  left: 10px;
+  top: 12px;
+  bottom: 12px;
+  width: 4px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--app-p2), var(--app-p3));
+  box-shadow:
+    0 0 10px rgba(255,255,255,.16),
+    0 0 26px rgba(124,58,237,.55);
+}
+
+/* Add an inner glow ring around the row by using first/last cell overlays */
+:where(.arco-table) :is(
+  .arco-table-tr.arco-table-tr-selected,
+  .arco-table-tr.arco-table-tr-checked,
+  .arco-table-tr.arco-table-row-selected,
+  .arco-table-tr.arco-table-row-checked
+) > .arco-table-td:first-child::after{
+  content:'';
+  position:absolute;
+  inset: -1px 0 -1px -1px;
+  pointer-events:none;
+  border-radius: 16px 0 0 16px;
+  box-shadow:
+    0 0 0 1px rgba(167,139,250,.16) inset,
+    0 0 26px rgba(124,58,237,.18);
+}
+
+:where(.arco-table) :is(
+  .arco-table-tr.arco-table-tr-selected,
+  .arco-table-tr.arco-table-tr-checked,
+  .arco-table-tr.arco-table-row-selected,
+  .arco-table-tr.arco-table-row-checked
+) > .arco-table-td:last-child::after{
+  content:'';
+  position:absolute;
+  inset: -1px -1px -1px 0;
+  pointer-events:none;
+  border-radius: 0 16px 16px 0;
+  box-shadow:
+    0 0 0 1px rgba(167,139,250,.16) inset,
+    0 0 26px rgba(124,58,237,.18);
+}
+
+/* Light theme: keep it clean */
+body[arco-theme="light"] :where(.arco-table) :is(
+  .arco-table-tr.arco-table-tr-selected,
+  .arco-table-tr.arco-table-tr-checked,
+  .arco-table-tr.arco-table-row-selected,
+  .arco-table-tr.arco-table-row-checked
+) > .arco-table-td{
+  background:
+    radial-gradient(120% 120% at 20% 0%, rgba(255,255,255,.80), transparent 55%),
+    linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.84)) !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.78) inset,
+    0 10px 24px rgba(124,58,237,.12) !important;
+}
+body[arco-theme="light"] :where(.arco-table) :is(
+  .arco-table-tr.arco-table-tr-selected,
+  .arco-table-tr.arco-table-tr-checked,
+  .arco-table-tr.arco-table-row-selected,
+  .arco-table-tr.arco-table-row-checked
+) > .arco-table-td:first-child::before{
+  box-shadow:
+    0 0 10px rgba(255,255,255,.10),
+    0 0 18px rgba(124,58,237,.35);
+}
+
+
+/* =========================================================
+   Domain list page: match design (figure 2)
+   - Integrated head+content already, refine table headbar + row cards
+   ========================================================= */
+
+/* Panel body: give subtle inner glow & spacious content area */
+#siteId .panel.panel-glass,
+#siteId .panel.glass-soft.panel,
+#siteId .panel{
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r18);
+}
+#siteId .panel .panel-body{
+  padding-top: 10px !important;
+}
+#siteId .panel .panel-body::before{
+  content:'';
+  position:absolute;
+  inset: 0;
+  pointer-events:none;
+  background:
+    radial-gradient(900px 520px at 18% 22%, rgba(124,58,237,.12), transparent 55%),
+    radial-gradient(780px 520px at 78% 22%, rgba(59,130,246,.10), transparent 58%),
+    radial-gradient(900px 720px at 50% 90%, rgba(124,58,237,.10), transparent 60%);
+  opacity: .9;
+}
+
+/* Table shell */
+#siteId .domain-table{
+  margin-top: 8px;
+}
+#siteId .domain-table .arco-table-container{
+  background: transparent !important;
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 16px;
+  box-shadow: 0 18px 42px rgba(0,0,0,.35);
+  overflow: hidden;
+}
+
+
+/* Headbar (thead) -> one integrated glass bar */
+#siteId .domain-table .arco-table-thead > tr > th{
+  height: 44px !important;
+  padding: 0 16px !important;
+  color: rgba(255,255,255,.82) !important;
+  font-weight: 650;
+  border: none !important;
+  background:
+    radial-gradient(140% 120% at 18% 0%, rgba(255,255,255,.10), transparent 48%),
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)) !important;
+}
+#siteId .domain-table .arco-table-thead > tr > th:first-child{
+  border-top-left-radius: 16px;
+}
+#siteId .domain-table .arco-table-thead > tr > th:last-child{
+  border-top-right-radius: 16px;
+}
+/* inner bottom divider like design */
+#siteId .domain-table .arco-table-thead{
+  box-shadow: 0 1px 0 rgba(255,255,255,.08) inset, 0 -1px 0 rgba(255,255,255,.06) inset;
+}
+
+/* remove default column dividers */
+#siteId .domain-table .arco-table-thead > tr > th::after{
+  display:none !important;
+}
+
+/* Body rows as card rows with spacing */
+#siteId .domain-table .arco-table-tbody > tr > td{
+  border: none !important;
+  background: transparent !important;
+  padding: 10px 12px !important;
+}
+#siteId .domain-table .arco-table-tbody{
+  background: transparent;
+}
+#siteId .domain-table .arco-table-tbody > tr{
+  position: relative;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, .06);
+  background: rgba(255, 255, 255, .03);
+}
+
+#siteId .domain-table .arco-table-tbody > tr::before{
+  content:'';
+  position:absolute;
+  left: 10px;
+  right: 10px;
+  top: 6px;
+  bottom: 6px;
+  border-radius: 18px;
+  background:
+    radial-gradient(120% 130% at 20% 0%, rgba(255,255,255,.08), transparent 55%),
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.06);
+  box-shadow:
+    0 10px 26px rgba(0,0,0,.24),
+    0 0 0 1px rgba(255,255,255,.04) inset;
+  pointer-events:none;
+}
+#siteId .domain-table .arco-table-tbody > tr:hover::before{
+  border-color: rgba(124,58,237,.28);
+  box-shadow:
+    0 14px 34px rgba(0,0,0,.30),
+    0 0 0 1px rgba(255,255,255,.06) inset,
+    0 0 34px rgba(124,58,237,.20);
+}
+
+/* Ensure cell content appears above row card */
+#siteId .domain-table .arco-table-tbody > tr > td > *{
+  position: relative;
+  z-index: 1;
+}
+
+/* Pagination/footer spacing like design */
+#siteId .domain-table + .arco-pagination,
+#siteId .panel .arco-pagination{
+  margin-top: 12px;
+}
+
+/* Light theme safe: keep subtle */
+body[arco-theme="light"] #siteId .domain-table .arco-table-container{
+  /* border: 1px solid rgba(10,10,20,.08); */
+  border: none;
+  box-shadow: 0 14px 30px rgba(10,10,20,.10);
+}
+body[arco-theme="light"] #siteId .domain-table .arco-table-thead > tr > th{
+  color: rgba(10,10,20,.72) !important;
+  background: linear-gradient(180deg, rgba(255,255,255,.90), rgba(255,255,255,.78)) !important;
+}
+body[arco-theme="light"] #siteId .domain-table .arco-table-tbody > tr::before{
+  background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.78));
+  border-color: rgba(10,10,20,.08);
+}
+
+
+
+
+/* ================================
+   Domain list panel v8 refinements
+   - Wider panel
+   - Clear header/body separator
+   ================================ */
+
+/* widen left domain list panel */
+.domain-list-panel,
+.site-list-panel{
+  max-width: calc(100vw - 520px);
+}
+
+/* integrated header separator */
+.domain-list-panel .panel-header,
+.site-list-panel .panel-header{
+  position: relative;
+}
+
+.domain-list-panel .panel-header::after,
+.site-list-panel .panel-header::after{
+  content:'';
+  position:absolute;
+  left: 24px;
+  right: 24px;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(167,139,250,.35),
+    rgba(255,255,255,.25),
+    rgba(167,139,250,.35),
+    transparent
+  );
+  box-shadow: 0 0 12px rgba(124,58,237,.45);
+}
+
+/* body padding & background continuation */
+.domain-list-panel .panel-body,
+.site-list-panel .panel-body{
+  padding-top: 18px;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(124,58,237,.08), transparent 55%),
+    linear-gradient(180deg, rgba(18,14,45,.55), rgba(12,10,30,.75));
+}
+
+/* table header glass strip */
+.domain-list-panel .arco-table-th,
+.site-list-panel .arco-table-th{
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,.06),
+    rgba(255,255,255,.02)
+  );
+  box-shadow:
+    inset 0 -1px 0 rgba(255,255,255,.08),
+    inset 0 1px 0 rgba(255,255,255,.12);
+}
+
+
+/* =========================================================
+   Domain list (site manage) polish v8
+   - Make left list panel a bit wider
+   - Add a clear horizontal divider between header and content
+   - Slightly tighten paddings to match design
+   ========================================================= */
+
+/* Widen left panel (where domain list lives) */
+.work_space .left,
+.work_space .site-left,
+.work_space .site-list,
+.work_space .siteListLeft,
+.work_space .sites-left{
+  min-width: 560px;
+}
+
+/* If layout uses CSS grid, prefer larger fraction */
+.work_space{
+  grid-template-columns: 560px 1fr 360px !important;
+}
+
+/* Unified panel header/content divider (inside integrated panels) */
+.panel,
+.glass-panel,
+.card-panel,
+.site-panel,
+.siteListPanel{
+  overflow: hidden;
+}
+
+/* Common header container classes in this codebase */
+.panel .panel-head,
+.glass-panel .panel-head,
+.site-panel .panel-head,
+.siteListPanel .panel-head,
+.panel .panelHeader,
+.glass-panel .panelHeader{
+  position: relative;
+}
+
+/* Divider line (horizontal) right under header */
+.panel .panel-head::after,
+.glass-panel .panel-head::after,
+.site-panel .panel-head::after,
+.siteListPanel .panel-head::after,
+.panel .panelHeader::after,
+.glass-panel .panelHeader::after{
+  content:"";
+  position:absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255,255,255,.08),
+    rgba(167,139,250,.22),
+    rgba(255,255,255,.08),
+    transparent
+  );
+  box-shadow: 0 0 18px rgba(124,58,237,.14);
+  pointer-events:none;
+}
+
+/* Give header a bit more presence like design */
+.panel .panel-head,
+.glass-panel .panel-head,
+.site-panel .panel-head,
+.siteListPanel .panel-head{
+  padding: 15px  !important
+}
+
+/* Content padding */
+.panel .panel-body,
+.glass-panel .panel-body,
+.site-panel .panel-body,
+.siteListPanel .panel-body{
+  padding: 15px 18px 15px 16px !important;
+}
